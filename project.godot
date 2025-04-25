@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Testing_0"
+config/name="Sorcerech_0"
+config/version="0.1"
 run/main_scene="res://scenes/world/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://assets image/placeholder/icon.svg"
@@ -29,6 +30,15 @@ directories/dch_directory={
 directories/dtl_directory={
 "timeline1": "res://dialogic/timeline/timeline1.dtl"
 }
+
+[display]
+
+window/size/viewport_width=320
+window/size/viewport_height=180
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/per_pixel_transparency/allowed=true
 
 [editor_plugins]
 
