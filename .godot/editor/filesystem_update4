@@ -1,5 +1,1 @@
-res://world.tscn
-res://Player.gd
-res://world.gd
 res://scenes/world/world.tscn
-res://config/Constants.gd

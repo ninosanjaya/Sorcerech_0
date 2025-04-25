@@ -21,7 +21,9 @@ extends CharacterBody2D
 @export var allow_clones: bool = false
 @export var allow_swimming: bool = false
 @export var allow_flying: bool = false
+@export var allow_flying2_area: bool = false
 @export var allow_digging: bool = false
+@export var allow_digging2_area: bool = false
 @export var allow_time_freeze: bool = false
 @export var allow_magnet: bool = false
 @export var allow_stat_upgrades: bool = false
@@ -58,9 +60,30 @@ var BulletScene = null
 var RocketScene = null
 var CloneScene = null
 
+# Form control
+const ALL_FORMS := {
+	"Normal": {},
+	"Magus": {},
+	"Cyber": {},
+	"UltimateMagus": {},
+	"UltimateCyber": {}
+}
+
+var unlocked_forms: Array = ["Normal"]
+var current_form_index := 0
+
+#const FORM_NAMES := ["Normal", "Magus", "Cyber", "UltimateMagus", "UltimateCyber"]
+
 # Called when the node enters the scene tree (initialization)
 func _ready() -> void:
 	# Optionally initialize anything or set up defaults.
+	#$Player.unlock_form("Magus")
+	unlock_form("Magus")
+	unlock_form("Cyber")
+	#unlock_form("UltimateMagus")
+	#unlock_form("UltimateCyber")
+	current_form_index = 0  # Start in Normal form
+	update_form_abilities()
 	jumps_available = 2 if allow_double_jump else 1
 	# If camouflage or invincibility start active (usually false by default).
 	if allow_camouflage:
@@ -99,7 +122,9 @@ func _physics_process(delta: float) -> void:
 		jumps_available = 2 if allow_double_jump else 1 # reset double jump when landed&#8203;:contentReference[oaicite:7]{index=7}
 		is_dashing = false  # touching ground cancels dash
 		# If digging ability is on and player is on diggable ground, we could allow digging here (placeholder).
-		# e.g., if allow_digging and on_diggable_ground(): dig()
+		if allow_digging and allow_digging2_area: 
+			#dig()
+			print("digging placeholder")
 
 	# Horizontal movement input
 	var direction: float = 0.0
@@ -117,29 +142,6 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, move_speed * 2 * delta)
 	# If dashing, we ignore regular input (player continues dashing in set direction)
 	
-	# Example: cycle between two forms (Normal and Power form) with a key press
-	if Input.is_action_just_pressed("change_form"):
-	# If currently in normal form (few abilities), switch to a form with many abilities, else revert.
-		if allow_double_jump == false and allow_dash == false:
-			# Switch to a "powered-up" form enabling many abilities
-			allow_double_jump = true
-			allow_dash = true
-			allow_wall_climb = true
-			allow_melee = true
-			allow_pistol = true
-			# (enable other abilities as desired)
-			print("Switched to Powered Form with multiple abilities")
-			# Adjust jumps_available since double jump might be enabled now
-			jumps_available = 2
-		else:
-		# Switch back to a "normal" form with basic abilities only
-			allow_double_jump = false
-			allow_dash = false
-			allow_wall_climb = false
-			allow_melee = false
-			allow_pistol = false
-		# (disable others or keep some basic ones)
-			print("Switched to Normal Form")
 
 
 	## 2. JUMPING (Single/Double) ##
@@ -168,6 +170,7 @@ func _physics_process(delta: float) -> void:
 		dash_time_left -= delta
 		if dash_time_left <= 0:
 			is_dashing = false  # end dash after duration
+			
 
 	## 4. WALL CLIMB ##
 	if allow_wall_climb:
@@ -188,8 +191,9 @@ func _physics_process(delta: float) -> void:
 	## 5. FLYING ##
 	if allow_flying:
 		# If flying is enabled, allow the player to fly when a key is held (e.g., "jump" or a separate "fly" action)
-		if Input.is_action_pressed("fly"):
+		#if Input.is_action_pressed("move_up"):
 			# Cancel gravity and allow vertical control
+		if allow_flying2_area == true:
 			velocity.y = 0
 			if Input.is_action_pressed("move_up"):
 				velocity.y = -move_speed  # move up
@@ -202,32 +206,33 @@ func _physics_process(delta: float) -> void:
 
 	## 7. ATTACKS & ABILITIES ##
 	# Melee attack
-	if allow_melee and Input.is_action_just_pressed("melee_attack"):
+	if allow_melee and Input.is_action_just_pressed("z"):
 		perform_melee_attack()
 	# Pistol shooting
-	if allow_pistol and Input.is_action_just_pressed("shoot"):
+	if allow_pistol and Input.is_action_just_pressed("z"):
 		shoot_bullet()
 	# Homing rocket
-	if allow_rocket and Input.is_action_just_pressed("shoot_rocket"):
+	if allow_rocket and Input.is_action_just_pressed("z"):
 		shoot_homing_rocket()
 	# Laser (continuous beam) - could be if key is pressed, keep firing
-	if allow_laser and Input.is_action_pressed("shoot_laser"):
+		
+	if allow_laser and Input.is_action_pressed("z"):
 		fire_laser_beam(delta)
 
 	# Grappling hook
-	if allow_grappling_hook and Input.is_action_just_pressed("grapple"):
+	if allow_grappling_hook and Input.is_action_just_pressed("x"):
 		use_grappling_hook()
 
 	# Clones - spawn a clone when ability used
-	if allow_clones and Input.is_action_just_pressed("spawn_clone"):
-		spawn_clone()
+	#if allow_clones and Input.is_action_just_pressed("spawn_clone"):
+	#	spawn_clone()
 
 	# Teleport (with objects or to location)
-	if allow_teleport and Input.is_action_just_pressed("teleport"):
+	if allow_teleport and Input.is_action_just_pressed("x"):
 		use_teleport()
 
 	# Camouflage (toggle on/off)
-	if allow_camouflage and Input.is_action_just_pressed("toggle_camouflage"):
+	if allow_camouflage and Input.is_action_just_pressed("x"):
 		camouflage_on = !camouflage_on
 		if camouflage_on:
 			$Sprite2D.modulate = Color(1,1,1,0.5)  # make sprite semi-transparent as visual cue
@@ -237,15 +242,15 @@ func _physics_process(delta: float) -> void:
 			print("Camouflage OFF")
 
 	# Invincibility (toggle on/off, or could be time-limited)
-	if allow_invincibility and Input.is_action_just_pressed("toggle_invincibility"):
-		invincible = !invincible
-		if invincible:
-			print("Invincibility ON - player won't take damage")
-		else:
-			print("Invincibility OFF")
+	#if allow_invincibility and Input.is_action_just_pressed("toggle_invincibility"):
+	#	invincible = !invincible
+	#	if invincible:
+	#		print("Invincibility ON - player won't take damage")
+	#	else:
+	#		print("Invincibility OFF")
 
 	# Time freeze (toggle time_frozen state)
-	if allow_time_freeze and Input.is_action_just_pressed("time_freeze"):
+	if allow_time_freeze and Input.is_action_just_pressed("x"):
 		time_frozen = !time_frozen
 		if time_frozen:
 			print("Time Frozen - enemies paused")
@@ -255,20 +260,78 @@ func _physics_process(delta: float) -> void:
 			# Reset time_scale or unpause enemies.
 
 	# Magnetism (could be passive; here we simulate when toggled)
-	if allow_magnet and Input.is_action_just_pressed("toggle_magnet"):
+	#if allow_magnet and Input.is_action_just_pressed("toggle_magnet"):
 		# This ability might constantly pull items when on; here just a toggle message
-		var status = "ON" if allow_magnet else "OFF"
-		print("Magnetism toggled: %s" % status)
+	#	var status = "ON" if allow_magnet else "OFF"
+	#	print("Magnetism toggled: %s" % status)
 		
 		# (If active, you'd continuously attract nearby pickup nodes toward the player)
 
 	## 8. MOVE THE PLAYER ##
-	# Use Godot's built-in movement solver. This updates the character's position and adjusts velocity on collisions.
-	move_and_slide()  # Uses CharacterBody2D's velocity internally&#8203;:contentReference[oaicite:9]{index=9}
-	
+	# Rotate forms
+	if Input.is_action_just_pressed("form_next"):
+		current_form_index = (current_form_index + 1) % unlocked_forms.size()
+		print("Selected form:", unlocked_forms[current_form_index])
+	if Input.is_action_just_pressed("form_prev"):
+		current_form_index = (current_form_index - 1 + unlocked_forms.size()) % unlocked_forms.size()
+		print("Selected form:", unlocked_forms[current_form_index])
+	if Input.is_action_just_pressed("form_apply"):
+		update_form_abilities()
+		print("Form changed to:", unlocked_forms[current_form_index])
+
+	move_and_slide()
 # Continue Player.gd - Ability helper functions
+func update_form_abilities():
+		var form = unlocked_forms[current_form_index]
+		# Reset all abilities
+		#allow_double_jump = false
+		#allow_dash = false
+		#allow_wall_climb = false
+		allow_camouflage = false
+		allow_melee = false
+		allow_pistol = false
+		allow_rocket = false
+		allow_grappling_hook = false
+		allow_laser = false
+		allow_teleport = false
+		allow_clones = false
+		allow_swimming = false
+		allow_flying = false
+		allow_digging = false
+		allow_time_freeze = false
+
+		match form:
+			"Normal":
+				scale = Vector2(0.75, 0.75)
+			"Magus":
+				allow_pistol = true
+				allow_camouflage = true
+				scale = Vector2(1, 1)
+			"Cyber":
+				allow_melee = true
+				allow_grappling_hook = true
+				scale = Vector2(1, 1)
+			"UltimateMagus":
+				allow_melee = true
+				allow_teleport = true
+				allow_digging = true
+				scale = Vector2(1.2, 1.2)
+			"UltimateCyber":
+				#allow_rocket = true
+				allow_laser = true
+				allow_time_freeze = true
+				allow_flying = true
+				scale = Vector2(1.2, 1.2)
+			_:
+				scale = Vector2(1, 1)
+				
+func unlock_form(form_name: String) -> void:
+	if not unlocked_forms.has(form_name) and ALL_FORMS.has(form_name):
+		unlocked_forms.append(form_name)
+		print(form_name, "form unlocked!")
 
 # Melee attack: deal damage to nearby enemy
+
 func perform_melee_attack() -> void:
 	# This is a placeholder implementation of a melee attack.
 	# In an actual game, you might create a hitbox Area2D or check for enemies in range.

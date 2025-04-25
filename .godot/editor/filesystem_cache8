@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1745566900
+::res://::1745575927
 ::res://assets/::1745401939
 ::res://assets/backgrounds/::1745401466
 ::res://assets/characters/::1745401416
@@ -30,13 +30,13 @@ Constants.gd::GDScript::-1::1745402273::0::1::::<>Node<>::
 ::res://scenes/props/::1745401589
 ::res://scenes/ui/::1745401994
 main.gd::GDScript::-1::1745401994::0::1::::<>Node<>::
-::res://scenes/world/::1745402273
-world.tscn::PackedScene::3670445391285738701::1745402273::0::1::::<><>::res://scripts/world/World.gd<>res://scripts/player/Player.gd<>uid://v0v70s0klskn::::res://assets/placeholder/icon.svg
+::res://scenes/world/::1745575325
+world.tscn::PackedScene::3670445391285738701::1745575325::0::1::::<><>::res://scripts/world/World.gd<>res://scripts/player/Player.gd<>uid://v0v70s0klskn::::res://assets/placeholder/icon.svg
 ::res://scripts/::1745401903
 ::res://scripts/abilities/::1745401631
 ::res://scripts/enemies/::1745401625
-::res://scripts/player/::1745401920
-Player.gd::GDScript::-1::1745400509::0::1::::<>CharacterBody2D<>::
+::res://scripts/player/::1745574565
+Player.gd::GDScript::-1::1745574565::0::1::::<>CharacterBody2D<>::
 ::res://scripts/systems/::1745401641
 ::res://scripts/ui/::1745401637
 ::res://scripts/world/::1745402175
