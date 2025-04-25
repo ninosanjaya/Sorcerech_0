@@ -1,6 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://cum4bca2wrlj3"]
+[gd_scene load_steps=6 format=3 uid="uid://cum4bca2wrlj3"]
 
 [ext_resource type="Script" path="res://scripts/rooms/Room_HiddenTown.gd" id="1_83rj6"]
+[ext_resource type="Script" path="res://scripts/world/Door.gd" id="2_f2oc2"]
+[ext_resource type="Texture2D" uid="uid://v0v70s0klskn" path="res://assets image/placeholder/icon.svg" id="3_d04us"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lyel"]
+size = Vector2(28, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1b2u1"]
+size = Vector2(600, 40)
 
 [node name="RoomHiddenTown" type="Node2D"]
 script = ExtResource("1_83rj6")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Spawn_FromHub" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(-22, 310)
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door_Hub" type="Area2D" parent="Doors"]
+script = ExtResource("2_f2oc2")
+target_room = "Room_Hub"
+target_spawn = "Spawn_FromHiddenTown"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_Hub"]
+position = Vector2(-82.5002, 350)
+shape = SubResource("RectangleShape2D_7lyel")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(12.4998, 391)
+shape = SubResource("RectangleShape2D_1b2u1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+position = Vector2(19.4998, 397)
+scale = Vector2(4.63281, 0.34375)
+texture = ExtResource("3_d04us")

@@ -1,6 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://2y3devuwcuju"]
+[gd_scene load_steps=6 format=3 uid="uid://2y3devuwcuju"]
 
 [ext_resource type="Script" path="res://scripts/rooms/Room_CyberTown.gd" id="1_0e4yv"]
+[ext_resource type="Script" path="res://scripts/world/Door.gd" id="2_ti10i"]
+[ext_resource type="Texture2D" uid="uid://v0v70s0klskn" path="res://assets image/placeholder/icon.svg" id="3_36pb1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05uf5"]
+size = Vector2(28, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fxkwn"]
+size = Vector2(600, 40)
 
 [node name="RoomCyberTown" type="Node2D"]
 script = ExtResource("1_0e4yv")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Spawn_FromHub" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(271, 47)
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door_Hub" type="Area2D" parent="Doors"]
+script = ExtResource("2_ti10i")
+target_room = "Room_Hub"
+target_spawn = "Spawn_FromCyberTown"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_Hub"]
+position = Vector2(197, 69)
+shape = SubResource("RectangleShape2D_05uf5")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(475.5, 111)
+shape = SubResource("RectangleShape2D_fxkwn")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+position = Vector2(482.5, 117)
+scale = Vector2(4.63281, 0.34375)
+texture = ExtResource("3_36pb1")

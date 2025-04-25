@@ -13,12 +13,14 @@ script = ExtResource("1_u45c0")
 
 [node name="Player" parent="." instance=ExtResource("2_ja6b4")]
 
-[node name="RoomHub" parent="." instance=ExtResource("3_sxhhb")]
+[node name="Room_Hub" parent="." instance=ExtResource("3_sxhhb")]
 
-[node name="RoomCyberTown" parent="." instance=ExtResource("5_u3pu4")]
+[node name="Room_CyberTown" parent="." instance=ExtResource("5_u3pu4")]
+position = Vector2(213, 2)
 
-[node name="RoomHiddenTown" parent="." instance=ExtResource("6_gpp48")]
+[node name="Room_HiddenTown" parent="." instance=ExtResource("6_gpp48")]
 
-[node name="RoomMagusTown" parent="." instance=ExtResource("4_75bux")]
+[node name="Room_MagusTown" parent="." instance=ExtResource("4_75bux")]
+position = Vector2(-201, 20)
 
 [node name="TransitionManager" parent="." instance=ExtResource("7_uvy46")]

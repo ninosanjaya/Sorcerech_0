@@ -8,10 +8,12 @@ extends Area2D
 
 func _ready() -> void:
 	# Connect the body_entered signal to trigger the transition when player enters the door area
-	self.connect("body_entered", self._on_door_body_entered)
+	connect("body_entered", Callable(self, "_on_body_entered"))
 	# (Ensure the collision layer/mask is set so that the player (body) colliding triggers this.)
 
-func _on_door_body_entered(body: Node) -> void:
+
+
+func _on_body_entered(body):
 	if body.name == "Player":  # or `body is Player` if a class
 		# Initiate the room transition via the TransitionManager
 		transition_manager.travel_to(body, target_room, target_spawn)

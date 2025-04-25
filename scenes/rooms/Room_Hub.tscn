@@ -39,22 +39,28 @@ format = 2
 
 [node name="Door_MagusTown" type="Area2D" parent="Doors"]
 script = ExtResource("1_sl44h")
+target_room = "Room_MagusTown"
+target_spawn = "Spawn_FromHub"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_MagusTown"]
-position = Vector2(-266, 58)
+position = Vector2(-279, 60)
 shape = SubResource("RectangleShape2D_b2fba")
 
 [node name="Door_CyberTown" type="Area2D" parent="Doors"]
 script = ExtResource("1_sl44h")
+target_room = "Room_CyberTown"
+target_spawn = "Spawn_FromHub"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_CyberTown"]
-position = Vector2(175, 64)
+position = Vector2(273, 63)
 shape = SubResource("RectangleShape2D_emdl6")
 
-[node name="Door_NeutralTown" type="Area2D" parent="Doors"]
+[node name="Door_HiddenTown" type="Area2D" parent="Doors"]
 script = ExtResource("1_sl44h")
+target_room = "Room_HiddenTown"
+target_spawn = "Spawn_FromHub"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_NeutralTown"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_HiddenTown"]
 position = Vector2(70, 61)
 shape = SubResource("RectangleShape2D_c2wbv")
 

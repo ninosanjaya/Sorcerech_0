@@ -1,5 +1,6 @@
-ea4bc82a6ad023ab7ee23ee620429895
-::res://::1745604558
+fc8a56933c4b1c8d796fdb8f7a9f9475
+::res://::1745606071
+export_presets.cfg::TextFile::-1::1745605908::0::1::::<><>::
 ::res://addons/::1745598732
 ::res://addons/dialogic/::1745598733
 plugin.cfg::TextFile::-1::1745598733::0::1::::<><>::
@@ -648,9 +649,9 @@ Room_True3.tscn::PackedScene::6700946591014802497::1745598733::0::1::::<><>::
 Room_TrueBoss.tscn::PackedScene::7229992864020330554::1745598733::0::1::::<><>::
 ::res://scenes/ui/::1745598733
 main.gd::GDScript::-1::1745598733::0::1::::<>Node<>::
-::res://scenes/world/::1745598854
+::res://scenes/world/::1745605645
 transition_manager.tscn::PackedScene::158705670625126952::1745598854::0::1::::<><>::res://scripts/world/TransitionManager.gd
-world.tscn::PackedScene::3670445391285738701::1745598853::0::1::::<><>::res://scripts/world/World.gd<>uid://cov3kryfnxah6::::res://scenes/player/player.tscn<>uid://dho52j1svafa7::::res://scenes/rooms/Room_Hub.tscn<>uid://d31x3lq4tpd8s::::res://scenes/rooms/Room_MagusTown.tscn<>uid://2y3devuwcuju::::res://scenes/rooms/Room_CyberTown.tscn<>uid://cum4bca2wrlj3::::res://scenes/rooms/Room_HiddenTown.tscn<>uid://ci44hikud0mu::::res://scenes/world/transition_manager.tscn
+world.tscn::PackedScene::3670445391285738701::1745605645::0::1::::<><>::res://scripts/world/World.gd<>uid://cov3kryfnxah6::::res://scenes/player/player.tscn<>uid://dho52j1svafa7::::res://scenes/rooms/Room_Hub.tscn<>uid://d31x3lq4tpd8s::::res://scenes/rooms/Room_MagusTown.tscn<>uid://2y3devuwcuju::::res://scenes/rooms/Room_CyberTown.tscn<>uid://cum4bca2wrlj3::::res://scenes/rooms/Room_HiddenTown.tscn<>uid://ci44hikud0mu::::res://scenes/world/transition_manager.tscn
 ::res://scripts/::1745598733
 ::res://scripts/player/::1745598733
 Player.gd::GDScript::-1::1745598733::0::1::::<>CharacterBody2D<>::
