@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://dho52j1svafa7"]
+
+[ext_resource type="Script" path="res://scripts/rooms/Room_Hub.gd" id="1_67lrk"]
+[ext_resource type="Script" path="res://scripts/world/Door.gd" id="1_sl44h"]
+[ext_resource type="Texture2D" uid="uid://v0v70s0klskn" path="res://assets image/placeholder/icon.svg" id="2_cip8t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2fba"]
+size = Vector2(28, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emdl6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c2wbv"]
+size = Vector2(20, 31)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2o0op"]
+size = Vector2(600, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yllia"]
+size = Vector2(40, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnnl2"]
+size = Vector2(40, 600)
+
+[node name="RoomHub" type="Node2D"]
+script = ExtResource("1_67lrk")
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Spawn_FromMagusTown" type="Marker2D" parent="SpawnPoints"]
+
+[node name="Spawn_FromCyberTown" type="Marker2D" parent="SpawnPoints"]
+
+[node name="Spawn_FromHiddenTown" type="Marker2D" parent="SpawnPoints"]
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door_MagusTown" type="Area2D" parent="Doors"]
+script = ExtResource("1_sl44h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_MagusTown"]
+position = Vector2(-266, 58)
+shape = SubResource("RectangleShape2D_b2fba")
+
+[node name="Door_CyberTown" type="Area2D" parent="Doors"]
+script = ExtResource("1_sl44h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_CyberTown"]
+position = Vector2(175, 64)
+shape = SubResource("RectangleShape2D_emdl6")
+
+[node name="Door_NeutralTown" type="Area2D" parent="Doors"]
+script = ExtResource("1_sl44h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_NeutralTown"]
+position = Vector2(70, 61)
+shape = SubResource("RectangleShape2D_c2wbv")
+
+[node name="Floor" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2(0, 100)
+shape = SubResource("RectangleShape2D_2o0op")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+position = Vector2(7, 106)
+scale = Vector2(4.63281, 0.34375)
+texture = ExtResource("2_cip8t")
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2(-320, 0)
+shape = SubResource("RectangleShape2D_yllia")
+
+[node name="Sprite2D" type="Sprite2D" parent="LeftWall"]
+position = Vector2(-320, -1.52588e-05)
+scale = Vector2(0.328125, 4.60938)
+texture = ExtResource("2_cip8t")
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_hnnl2")
+
+[node name="Sprite2D" type="Sprite2D" parent="RightWall"]
+position = Vector2(323.25, -2.99996)
+scale = Vector2(0.339844, 4.70313)
+texture = ExtResource("2_cip8t")

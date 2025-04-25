@@ -1,112 +1,24 @@
-[gd_scene load_steps=14 format=3 uid="uid://bsj8x1oxp0cqn"]
+[gd_scene load_steps=8 format=3 uid="uid://bsj8x1oxp0cqn"]
 
 [ext_resource type="Script" path="res://scripts/world/World.gd" id="1_u45c0"]
-[ext_resource type="Script" path="res://scripts/player/Player.gd" id="2_f5bih"]
-[ext_resource type="Texture2D" uid="uid://v0v70s0klskn" path="res://assets/placeholder/icon.svg" id="3_lcy4s"]
-[ext_resource type="Script" path="res://scenes/world/NPC_A.gd" id="4_q80yw"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_un06y"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o4mff"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w5g1h"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oc0c2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvqxu"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_18d8w"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwe8t"]
-size = Vector2(600, 40)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aos12"]
-size = Vector2(40, 600)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_82lq8"]
-size = Vector2(40, 600)
+[ext_resource type="PackedScene" uid="uid://cov3kryfnxah6" path="res://scenes/player/player.tscn" id="2_ja6b4"]
+[ext_resource type="PackedScene" uid="uid://dho52j1svafa7" path="res://scenes/rooms/Room_Hub.tscn" id="3_sxhhb"]
+[ext_resource type="PackedScene" uid="uid://d31x3lq4tpd8s" path="res://scenes/rooms/Room_MagusTown.tscn" id="4_75bux"]
+[ext_resource type="PackedScene" uid="uid://2y3devuwcuju" path="res://scenes/rooms/Room_CyberTown.tscn" id="5_u3pu4"]
+[ext_resource type="PackedScene" uid="uid://cum4bca2wrlj3" path="res://scenes/rooms/Room_HiddenTown.tscn" id="6_gpp48"]
+[ext_resource type="PackedScene" uid="uid://ci44hikud0mu" path="res://scenes/world/transition_manager.tscn" id="7_uvy46"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_u45c0")
 
-[node name="Player" type="CharacterBody2D" parent="."]
-script = ExtResource("2_f5bih")
+[node name="Player" parent="." instance=ExtResource("2_ja6b4")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-position = Vector2(12, 1.5)
-scale = Vector2(0.140625, 0.148438)
-texture = ExtResource("3_lcy4s")
+[node name="RoomHub" parent="." instance=ExtResource("3_sxhhb")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(12, 1)
-shape = SubResource("RectangleShape2D_un06y")
+[node name="RoomCyberTown" parent="." instance=ExtResource("5_u3pu4")]
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="RoomHiddenTown" parent="." instance=ExtResource("6_gpp48")]
 
-[node name="Enemy" type="CharacterBody2D" parent="."]
+[node name="RoomMagusTown" parent="." instance=ExtResource("4_75bux")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Enemy"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
-position = Vector2(248, 66)
-shape = SubResource("RectangleShape2D_o4mff")
-
-[node name="Boss" type="CharacterBody2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="Boss"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Boss"]
-position = Vector2(162, 67)
-shape = SubResource("RectangleShape2D_w5g1h")
-
-[node name="NPC_A" type="Area2D" parent="."]
-script = ExtResource("4_q80yw")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC_A"]
-position = Vector2(38, 67)
-shape = SubResource("RectangleShape2D_oc0c2")
-
-[node name="NPC_B" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NPC_B"]
-position = Vector2(64, 68)
-shape = SubResource("RectangleShape2D_rvqxu")
-
-[node name="Door" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Door"]
-position = Vector2(92, 68)
-shape = SubResource("RectangleShape2D_18d8w")
-
-[node name="Floor" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(0, 100)
-shape = SubResource("RectangleShape2D_fwe8t")
-
-[node name="Sprite2D" type="Sprite2D" parent="Floor"]
-position = Vector2(7, 106)
-scale = Vector2(4.63281, 0.34375)
-texture = ExtResource("3_lcy4s")
-
-[node name="LeftWall" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
-position = Vector2(-320, 0)
-shape = SubResource("RectangleShape2D_aos12")
-
-[node name="Sprite2D" type="Sprite2D" parent="LeftWall"]
-position = Vector2(-320, -1.52588e-05)
-scale = Vector2(0.328125, 4.60938)
-texture = ExtResource("3_lcy4s")
-
-[node name="RightWall" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
-position = Vector2(320, 0)
-shape = SubResource("RectangleShape2D_82lq8")
-
-[node name="Sprite2D" type="Sprite2D" parent="RightWall"]
-position = Vector2(323.25, -2.99996)
-scale = Vector2(0.339844, 4.70313)
-texture = ExtResource("3_lcy4s")
+[node name="TransitionManager" parent="." instance=ExtResource("7_uvy46")]

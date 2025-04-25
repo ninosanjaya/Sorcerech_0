@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d31x3lq4tpd8s"]
+
+[ext_resource type="Script" path="res://scripts/rooms/Room_MagusTown.gd" id="1_imj52"]
+
+[node name="RoomMagusTown" type="Node2D"]
+script = ExtResource("1_imj52")

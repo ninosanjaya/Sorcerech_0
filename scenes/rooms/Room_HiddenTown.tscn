@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cum4bca2wrlj3"]
+
+[ext_resource type="Script" path="res://scripts/rooms/Room_HiddenTown.gd" id="1_83rj6"]
+
+[node name="RoomHiddenTown" type="Node2D"]
+script = ExtResource("1_83rj6")

@@ -6,3 +6,14 @@ res://scenes/world/NPC_A.gd
 res://scripts/world/World.gd
 res://dialogic/timeline/timeline1.dtl
 res://dialogic/characters/character1.dch
+res://player/player.tscn
+res://scenes/player/player.tscn
+res://scenes/rooms/Room_Connecting2.tscn
+res://scripts/world/Door.gd
+res://scripts/world/TransitionManager.gd
+res://scenes/rooms/Room_Hub.tscn
+res://scenes/rooms/Room_MagusTown.tscn
+res://scenes/rooms/Room_CyberTown.tscn
+res://scripts/rooms/Room_Hub.gd
+res://scenes/rooms/Room_HiddenTown.tscn
+res://scenes/world/transition_manager.tscn

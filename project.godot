@@ -13,12 +13,13 @@ config_version=5
 config/name="Testing_0"
 run/main_scene="res://scenes/world/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://assets/placeholder/icon.svg"
+config/icon="res://assets image/placeholder/icon.svg"
 
 [autoload]
 
 Constants="*res://config/Constants.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+TransitionManager="*res://scenes/world/transition_manager.tscn"
 
 [dialogic]
 
