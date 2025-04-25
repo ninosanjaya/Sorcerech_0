@@ -6,7 +6,8 @@ extends Node2D
 
 func _ready() -> void:
 	print("World ready. Initializing sandbox...")
-
+	Dialogic.start("timeline1", false)
+	#add_child(new_dialog)
 	 # Safely enable Camera2D if it exists under the player
 	if $Player.has_node("Camera2D"):
 		var cam = $Player.get_node("Camera2D")

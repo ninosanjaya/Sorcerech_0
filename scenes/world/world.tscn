@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://bsj8x1oxp0cqn"]
+[gd_scene load_steps=14 format=3 uid="uid://bsj8x1oxp0cqn"]
 
 [ext_resource type="Script" path="res://scripts/world/World.gd" id="1_u45c0"]
 [ext_resource type="Script" path="res://scripts/player/Player.gd" id="2_f5bih"]
 [ext_resource type="Texture2D" uid="uid://v0v70s0klskn" path="res://assets/placeholder/icon.svg" id="3_lcy4s"]
+[ext_resource type="Script" path="res://scenes/world/NPC_A.gd" id="4_q80yw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_un06y"]
 
@@ -59,6 +60,7 @@ position = Vector2(162, 67)
 shape = SubResource("RectangleShape2D_w5g1h")
 
 [node name="NPC_A" type="Area2D" parent="."]
+script = ExtResource("4_q80yw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NPC_A"]
 position = Vector2(38, 67)

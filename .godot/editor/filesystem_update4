@@ -1,1 +1,8 @@
 res://scenes/world/world.tscn
+res://addons/dialogic/Timeline_dialogue/timeline.dtl
+res://addons/dialogic/Timeline_dialogue/intro_test.dtl
+res://addons/dialogic/Timeline_dialogue/Test_character1.dch
+res://scenes/world/NPC_A.gd
+res://scripts/world/World.gd
+res://dialogic/timeline/timeline1.dtl
+res://dialogic/characters/character1.dch
