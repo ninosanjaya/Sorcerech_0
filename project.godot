@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Testing_0"
+config/name="Sorcerech_0"
 run/main_scene="res://scenes/world/world.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://assets image/placeholder/icon.svg"
