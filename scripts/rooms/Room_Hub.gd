@@ -9,11 +9,13 @@ func _ready() -> void:
 	#Dialogic.start("timeline1", false)
 	#add_child(new_dialog)
 	 # Safely enable Camera2D if it exists under the player
+	
+	
 	if player.has_node("Camera2D"):
 		var cam = $Player.get_node("Camera2D")
 		if cam is Camera2D:
 			cam.make_current()
-
+	
 	# Optional: Display sandbox label
 	if has_node("Label"):
 		$Label.text = "Welcome to the Platformer Sandbox!"

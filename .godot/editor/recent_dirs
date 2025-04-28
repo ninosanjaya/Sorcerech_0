@@ -1,7 +1,11 @@
+res://dialogic/timeline
+res://dialogic/characters
+res://dialogic
+res://scripts/player
+res://scripts/dialog
+C:/Program Files/Java/jdk-17/bin
 res://scenes/world
 res://scripts/rooms
 res://scripts/world
-res://dialogic/characters
-res://dialogic/timeline
 res://config
 res://
