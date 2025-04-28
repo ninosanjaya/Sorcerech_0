@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsj8x1oxp0cqn"]
+[gd_scene load_steps=11 format=3 uid="uid://bsj8x1oxp0cqn"]
 
 [ext_resource type="Script" path="res://scripts/world/World.gd" id="1_u45c0"]
 [ext_resource type="PackedScene" uid="uid://cov3kryfnxah6" path="res://scenes/player/player.tscn" id="2_ja6b4"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://2y3devuwcuju" path="res://scenes/rooms/Room_CyberTown.tscn" id="5_u3pu4"]
 [ext_resource type="PackedScene" uid="uid://cum4bca2wrlj3" path="res://scenes/rooms/Room_HiddenTown.tscn" id="6_gpp48"]
 [ext_resource type="PackedScene" uid="uid://ci44hikud0mu" path="res://scenes/world/transition_manager.tscn" id="7_uvy46"]
+[ext_resource type="PackedScene" uid="uid://chc87neyvhob" path="res://scenes/rooms/Room_Part1Boss.tscn" id="8_mha45"]
+[ext_resource type="PackedScene" uid="uid://dv4jn2qpcnacg" path="res://scenes/rooms/Room_Part2CyberBoss.tscn" id="9_0rww2"]
+[ext_resource type="PackedScene" uid="uid://dnboopo8jbhd7" path="res://scenes/rooms/Room_Part2MagusBoss.tscn" id="10_tm4qa"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_u45c0")
@@ -18,9 +21,15 @@ script = ExtResource("1_u45c0")
 [node name="Room_CyberTown" parent="." instance=ExtResource("5_u3pu4")]
 position = Vector2(213, 2)
 
-[node name="Room_HiddenTown" parent="." instance=ExtResource("6_gpp48")]
-
 [node name="Room_MagusTown" parent="." instance=ExtResource("4_75bux")]
 position = Vector2(-201, 20)
 
+[node name="Room_HiddenTown" parent="." instance=ExtResource("6_gpp48")]
+
 [node name="TransitionManager" parent="." instance=ExtResource("7_uvy46")]
+
+[node name="RoomPart1Boss" parent="." instance=ExtResource("8_mha45")]
+
+[node name="RoomPart2CyberBoss" parent="." instance=ExtResource("9_0rww2")]
+
+[node name="RoomPart2MagusBoss" parent="." instance=ExtResource("10_tm4qa")]

@@ -39,3 +39,9 @@ shape = SubResource("RectangleShape2D_1b2u1")
 position = Vector2(19.4998, 397)
 scale = Vector2(4.63281, 0.34375)
 texture = ExtResource("3_d04us")
+
+[node name="Main_room" type="Node2D" parent="."]
+
+[node name="Shop_room" type="Node2D" parent="."]
+
+[node name="Extra_room" type="Node2D" parent="."]

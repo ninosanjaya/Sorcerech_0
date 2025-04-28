@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://dg1lmlgramp4w"]
+
+[ext_resource type="PackedScene" uid="uid://cov3kryfnxah6" path="res://scenes/player/player.tscn" id="1_omhi8"]
+[ext_resource type="PackedScene" uid="uid://c2sg1f3gtnnp3" path="res://scenes/enemies/Enemies.tscn" id="2_rw0mu"]
+[ext_resource type="PackedScene" uid="uid://dj5ovntas5opr" path="res://scenes/rooms/Room_Part2CyberMiniBoss.tscn" id="2_ureh4"]
+[ext_resource type="PackedScene" uid="uid://dnie5klkk10ic" path="res://scenes/rooms/Room_Part2MagusMiniBoss.tscn" id="3_yte0o"]
+[ext_resource type="PackedScene" uid="uid://ci44hikud0mu" path="res://scenes/world/transition_manager.tscn" id="4_ql6w4"]
+[ext_resource type="PackedScene" uid="uid://dbai6qvut58kc" path="res://scenes/rooms/Room_TrueBoss.tscn" id="5_klbwp"]
+[ext_resource type="Script" path="res://scripts/world/Door.gd" id="7_n6v63"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wf1di"]
+size = Vector2(28, 24)
+
+[node name="WorldDungeon" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="."]
+format = 2
+
+[node name="Player" parent="." instance=ExtResource("1_omhi8")]
+
+[node name="Enemy Types" type="Node2D" parent="."]
+
+[node name="Enemies" parent="Enemy Types" instance=ExtResource("2_rw0mu")]
+
+[node name="RoomMagusDungeon1" type="Node2D" parent="."]
+
+[node name="RoomMagusDungeon2" type="Node2D" parent="."]
+
+[node name="RoomMagusDungeon3" type="Node2D" parent="."]
+
+[node name="RoomMagusDungeon4" type="Node2D" parent="."]
+
+[node name="RoomMagusDungeon5" type="Node2D" parent="."]
+
+[node name="RoomPart2MagusMiniBoss" parent="." instance=ExtResource("3_yte0o")]
+
+[node name="RoomCyberDungeon1" type="Node2D" parent="."]
+
+[node name="RoomCyberDungeon2" type="Node2D" parent="."]
+
+[node name="RoomCyberDungeon3" type="Node2D" parent="."]
+
+[node name="RoomCyberDungeon4" type="Node2D" parent="."]
+
+[node name="RoomCyberDungeon5" type="Node2D" parent="."]
+
+[node name="RoomPart2CyberMiniBoss" parent="." instance=ExtResource("2_ureh4")]
+
+[node name="RoomBridge1" type="Node2D" parent="."]
+
+[node name="RoomBridge2" type="Node2D" parent="."]
+
+[node name="RoomHiddenPath1" type="Node2D" parent="."]
+
+[node name="RoomHiddenPath2" type="Node2D" parent="."]
+
+[node name="RoomHiddenPath3" type="Node2D" parent="."]
+
+[node name="RoomTruthBoss" parent="." instance=ExtResource("5_klbwp")]
+
+[node name="TransitionManager" parent="." instance=ExtResource("4_ql6w4")]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Spawn_FromXXX" type="Marker2D" parent="SpawnPoints"]
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door_XXX" type="Area2D" parent="Doors"]
+script = ExtResource("7_n6v63")
+target_room = "Room_MagusTown"
+target_spawn = "Spawn_FromHub"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_XXX"]
+position = Vector2(-279, 60)
+shape = SubResource("RectangleShape2D_wf1di")
