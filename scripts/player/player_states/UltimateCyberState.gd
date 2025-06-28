@@ -19,6 +19,7 @@ func enter():
 	Global.playerDamageAmount = 40
 	print("Entered Ultimate Cyber State")
 	# e.g. change player color or animation
+	
 
 func exit():
 	#reset time freeze
@@ -42,9 +43,9 @@ func physics_process(delta):
 		# --- Rocket shooting for "yes" action ---
 		if Input.is_action_just_pressed("yes") and player.can_attack == true and Global.playerAlive:
 			player.shoot_rocket() # Call the new function to shoot a rocket
-			player.can_attack = false # Apply attack cooldown
+			#player.can_attack = false # Apply attack cooldown
 			# Use the attack_cooldown_timer's current wait_time, e.g., 1.0 from player.gd
-			player.attack_cooldown_timer.start(player.attack_cooldown_timer.wait_time)
+			#player.attack_cooldown_timer.start(player.attack_cooldown_timer.wait_time)
 			print("Ultimate Cyber shooting rocket!")
 					
 		if Input.is_action_just_pressed("no") and player.can_skill == true and Global.playerAlive:

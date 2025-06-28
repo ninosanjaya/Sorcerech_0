@@ -32,7 +32,8 @@ func enter():
 			player.anim_state.travel("ability_ult_cyber")
 		"Normal":
 			#player.anim_sprite.play("normal_attack")
-			print("Normal skill")
+			#print("Normal skill")
+			pass
 			#player.still_animation = true
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func physics_update(delta):

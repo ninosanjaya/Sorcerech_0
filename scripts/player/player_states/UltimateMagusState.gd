@@ -60,7 +60,7 @@ func physics_process(delta):
 			#is_attacking = true
 			#attack_timer = ATTACK_DURATION
 			player.AreaAttack.monitoring = true
-			player.AreaAttackColl.disabled = false
+			#player.AreaAttackColl.disabled = false
 			print("Ult Magus attacking")
 		
 		if is_holding == true:

@@ -93,6 +93,8 @@ const WALL_JUMP_DURATION := 0.3
 
 @export var rocket_scene: PackedScene = preload("res://scenes/objects/Rocket.tscn") # Will hold the preloaded Rocket.tscn
 
+@onready var combo_timer = $ComboTimer
+var combo_timer_flag = true
 
 func _ready():
 	# Preload and instantiate all states with reference to this Player
@@ -217,14 +219,16 @@ func _physics_process(delta):
 			if is_on_floor() and Input.is_action_just_pressed("move_up"):  # Jump
 				velocity.y = -jump_force
 	
-		if Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2:
+		if Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2 and current_state_index != 0:
 			can_attack = false
-			attack_cooldown_timer.start(1.0)  # 0.5 sec cooldown
-	#current_state.attack()  # or similar logic
+			attack_cooldown_timer.start(2.0)  # 0.5 sec cooldown
+		elif get_current_form_id() == "UltimateMagus" and can_attack and Input.is_action_just_pressed("yes") and current_state_index != 2 and combo_timer_flag == true:
+			combo_timer_flag = false
+			combo_timer.start(0.5)  # 0.5 sec cooldown
 
 		if Input.is_action_just_pressed("no") and can_skill and current_state_index != 2:
 			can_skill = false
-			skill_cooldown_timer.start(1.0)
+			skill_cooldown_timer.start(2.0)
 		
 		check_hitbox()
 	elif dead:
@@ -400,8 +404,9 @@ func _on_form_cooldown_timer_timeout():
 
 func _on_attack_cooldown_timer_timeout():
 	can_attack = true
+	combo_timer_flag = true
 	AreaAttack.monitoring = false
-	AreaAttackColl.disabled = true
+	#AreaAttackColl.disabled = true
 
 func _on_skill_cooldown_timer_timeout():
 	can_skill = true
@@ -523,3 +528,9 @@ func shoot_rocket():
 	#     anim_state.travel("UltimateCyber_Attack") # Assuming you have a Ultimate Cyber attack animation
 	print("Player in Ultimate Cyber mode shot a homing rocket!")
 		
+
+
+func _on_combo_timer_timeout():
+	can_attack = false
+	attack_cooldown_timer.start(2.0)  # 0.5 sec cooldown
+	print("combo,timer attck start")

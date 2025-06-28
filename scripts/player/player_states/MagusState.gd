@@ -118,8 +118,8 @@ func physics_process(delta):
 		
 		if Input.is_action_just_pressed("yes") and player.can_attack == true and Global.playerAlive:
 			player.shoot_fireball() # Call the new function to shoot a fireball
-			player.can_attack = false # Apply attack cooldown
-			player.attack_cooldown_timer.start(player.attack_cooldown_timer.wait_time) # Use the timer's set wait_time
+			#player.can_attack = false # Apply attack cooldown
+			#player.attack_cooldown_timer.start(player.attack_cooldown_timer.wait_time) # Use the timer's set wait_time
 			print("Magus shooting fireball!")
 			# The following lines are for melee attack and should be removed or commented out:
 			# player.AreaAttack.monitoring = true

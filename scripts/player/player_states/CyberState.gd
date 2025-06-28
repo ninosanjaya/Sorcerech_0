@@ -125,7 +125,9 @@ func physics_process(delta):
 		# Handle cyber attack input
 		if Input.is_action_just_pressed("yes") and player.can_attack == true and Global.playerAlive:
 			player.AreaAttack.monitoring = true      # Enable monitoring for attack area
-			player.AreaAttackColl.disabled = false   # Enable collision for attack area
+			#player.AreaAttackColl.disabled = false   # Enable collision for attack area
+			
+			
 			print("Cyber attacking")
 
 		# Handle grapple input

@@ -22,7 +22,7 @@ func enter():
 			# Big AoE logic here
 			print("Ultimate Magus attack")
 			player.still_animation = true
-			player.anim_state.travel("attack_ult_magus")
+			player.anim_state.travel("attack_ult_magus_1")
 		"UltimateCyber":
 			#player.anim_sprite.play("ultimate_cyber_strike")
 			# Laser or time freeze here
@@ -37,6 +37,9 @@ func enter():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func physics_update(delta):
+	if  player.get_current_form_id() == "UltimateMagus" and Input.is_action_just_pressed("yes"): 
+		get_parent().change_state(AttackState2.new(player))
+	
 	if !(Input.is_action_just_pressed("yes")) and player.still_animation == false:
 		if player.is_on_floor():
 			if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
