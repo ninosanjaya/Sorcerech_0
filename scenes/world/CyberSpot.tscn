@@ -5,6 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_im5ma"]
 
 [node name="CyberSpot" type="Area2D"]
+collision_mask = 3
 script = ExtResource("1_jnse8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

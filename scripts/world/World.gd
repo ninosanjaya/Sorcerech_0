@@ -14,8 +14,8 @@ extends Node2D
 func _ready() -> void:
 	print("World ready. Initializing sandbox...")
 	
-	#Dialogic.start("timeline1", false)
-
+	Dialogic.start("timeline1", false)
+	
 	#add_child(new_dialog)
 	 # Safely enable Camera2D if it exists under the player
 	

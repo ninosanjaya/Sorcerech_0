@@ -42,7 +42,7 @@ var unlocked_flags = {
 	"UltimateCyber": false
 }
 
-var selected_form_index := 2  # This is for preview selection before confirming
+#var Global.selected_form_index := 2  # This is for preview selection before confirming
 
 var combat_fsm
 
@@ -96,6 +96,8 @@ const WALL_JUMP_DURATION := 0.3
 @onready var combo_timer = $ComboTimer
 var combo_timer_flag = true
 
+var inventory = []
+
 func _ready():
 	# Preload and instantiate all states with reference to this Player
 	#if gravity == null:
@@ -128,17 +130,44 @@ func _ready():
 	
 	switch_state("Normal")
 	
-	unlock_state("Magus")
-	unlock_state("Cyber")
-	unlock_state("UltimateMagus")
-	unlock_state("UltimateCyber")
+	
 	
 	# Set indices AFTER unlocking to valid values
-	current_state_index = unlocked_states.find("Normal")
-	if current_state_index == -1:
-		current_state_index = 0
-	selected_form_index = current_state_index
+	#current_state_index = unlocked_states.find("Normal")
+	#if current_state_index == -1:
+	#	current_state_index = 0
+	#Global.selected_form_index = current_state_index
 	
+	# --- NEW: Check if we are loading a game and apply data ---
+	# This happens *after* the node is ready in the new scene tree.
+	if SaveLoadManager.current_loaded_player_data != null and not SaveLoadManager.current_loaded_player_data.is_empty():
+		print("Player._ready: Applying loaded data from SaveLoadManager.current_loaded_player_data")
+		apply_load_data(SaveLoadManager.current_loaded_player_data)
+		# Clear the temporary data so it's not applied again on subsequent scene changes
+		SaveLoadManager.current_loaded_player_data = {} # Set to empty dictionary instead of null
+	else:
+		# If not loading, set initial state for a new game
+		print("Player._ready: No loaded data. Setting initial default state.")
+		# This initial setup should only run if you are starting a brand new game
+		# and not loading from a save.
+		# Ensure initial 'Normal' state unlock happens (can remove if handled in apply_load_data logic)
+
+		# ... (other default unlocks if needed for new game) ...
+		
+		unlock_state("Magus")
+		unlock_state("Cyber")
+		unlock_state("UltimateMagus")
+		unlock_state("UltimateCyber")
+		
+		current_state_index = unlocked_states.find("Normal")
+		if current_state_index == -1:
+			current_state_index = 0
+		Global.selected_form_index = current_state_index
+		
+		switch_state(unlocked_states[current_state_index])
+		combat_fsm.change_state(IdleState.new(self))
+		
+	#_apply_global_player_state_on_ready()
 	#animation_player.animation_finished.connect(_on_animation_player_animation_finished)
 	
 	#form_cooldown_timer.timeout.connect(_on_form_cooldown_timer_timeout)
@@ -150,18 +179,20 @@ func _ready():
 	
 
 func _physics_process(delta):
-	#print(player_hit)
+	
+	#print(Global.is_dialog_open)
 	if combat_fsm:
 		combat_fsm.update_physics(delta)
 	
 	if current_state:
 		current_state.physics_process(delta)
 		
+
 		
 	Global.playerDamageZone = AreaAttack #deal_damage_zone
 	Global.playerHitbox = Hitbox
 	#rint(Global.playerDamageZone.monitoring)
-	#print(current_state_index)
+	#print(Global.selected_form_index)
 	
 	if telekinesis_controller.is_ui_open == true:
 		UI_telekinesis = true
@@ -171,9 +202,9 @@ func _physics_process(delta):
 	
 	
 	var input_dir = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	if Input.is_action_pressed("move_right") and not wall_jump_just_happened:
+	if Input.is_action_pressed("move_right") and not wall_jump_just_happened and Global.is_dialog_open == false:
 		facing_direction = 1
-	elif Input.is_action_pressed("move_left") and not wall_jump_just_happened:
+	elif Input.is_action_pressed("move_left") and not wall_jump_just_happened and Global.is_dialog_open == false:
 		facing_direction = -1
 		
 		
@@ -190,7 +221,7 @@ func _physics_process(delta):
 		# Reset vertical velocity to prevent falling
 	#	velocity.y = 0
 	#	return
-		
+
 	if !dead:
 		
 			
@@ -214,19 +245,19 @@ func _physics_process(delta):
 			else:
 				sprite.flip_h = false
 				
-			if not wall_jump_just_happened:
+			if not wall_jump_just_happened and Global.is_dialog_open == false:
 				velocity.x = input_dir * move_speed
-			if is_on_floor() and Input.is_action_just_pressed("move_up"):  # Jump
+			if is_on_floor() and Input.is_action_just_pressed("move_up") and Global.is_dialog_open == false:  # Jump
 				velocity.y = -jump_force
 	
-		if Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2 and current_state_index != 0:
+		if Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2 and current_state_index != 0 and Global.is_dialog_open == false:
 			can_attack = false
 			attack_cooldown_timer.start(2.0)  # 0.5 sec cooldown
-		elif get_current_form_id() == "UltimateMagus" and can_attack and Input.is_action_just_pressed("yes") and current_state_index != 2 and combo_timer_flag == true:
+		elif get_current_form_id() == "UltimateMagus" and can_attack and Input.is_action_just_pressed("yes") and current_state_index != 2 and combo_timer_flag == true and Global.is_dialog_open == false:
 			combo_timer_flag = false
 			combo_timer.start(0.5)  # 0.5 sec cooldown
 
-		if Input.is_action_just_pressed("no") and can_skill and current_state_index != 2:
+		if Input.is_action_just_pressed("no") and can_skill and current_state_index != 2 and Global.is_dialog_open == false:
 			can_skill = false
 			skill_cooldown_timer.start(2.0)
 		
@@ -267,16 +298,16 @@ func _physics_process(delta):
 	
 	# --- FORM ROTATION ---
 	if Input.is_action_just_pressed("form_next"):
-		selected_form_index = (selected_form_index + 1) % unlocked_states.size()
-		print("Selected form: ", unlocked_states[selected_form_index])
+		Global.selected_form_index = (Global.selected_form_index + 1) % unlocked_states.size()
+		print("Selected form: ", unlocked_states[Global.selected_form_index])
 
 	if Input.is_action_just_pressed("form_prev"):
-		selected_form_index = (selected_form_index - 1 + unlocked_states.size()) % unlocked_states.size()
-		print("Selected form: ", unlocked_states[selected_form_index])
+		Global.selected_form_index = (Global.selected_form_index - 1 + unlocked_states.size()) % unlocked_states.size()
+		print("Selected form: ", unlocked_states[Global.selected_form_index])
 
-	if Input.is_action_just_pressed("form_apply") and !dead:
-		if selected_form_index != current_state_index:
-			current_state_index = selected_form_index
+	if Input.is_action_just_pressed("form_apply") and !dead and Global.is_dialog_open == false:
+		if Global.selected_form_index != current_state_index:
+			current_state_index = Global.selected_form_index
 			switch_state(unlocked_states[current_state_index])  # ADD THIS LINE
 			combat_fsm.change_state(IdleState.new(self))
 			#print("Switched to form: ", unlocked_states[current_state_index])
@@ -354,7 +385,7 @@ func unlock_state(state_name: String) -> void:
 
 		# Update indices to stay on current state
 		#current_state_index = unlocked_states.find(current_state.name)
-		#selected_form_index = current_state_index
+		#Global.selected_form_index = current_state_index
 		
 func lock_state(state_name: String) -> void:
 	if unlocked_states.has(state_name) and state_name != "Normal":
@@ -507,30 +538,160 @@ func shoot_rocket():
 		print("ERROR: Rocket scene not assigned in Player.gd's Inspector!")
 		return
 
-	var rocket_instance = rocket_scene.instantiate()
-	# Add the rocket to the main scene tree, not as a child of the player.
-	get_tree().current_scene.add_child(rocket_instance)
+	# Find the closest enemy BEFORE spawning rockets so both target the same one
+	# If no target is found, target_enemy will be null, and rockets will fly straight initially
+	# and then might continue straight if no target ever appears, or despawn by lifetime.
+	var target_enemy = find_closest_enemy_for_rockets()
 
-	# Position the rocket at the player's designated spawn point (reusing FireballSpawnPoint for simplicity)
-	# Apply the same logic for flipping the spawn point based on facing_direction
-	var spawn_offset_x = fireball_spawn_point.position.x * facing_direction
-	var spawn_offset_y = fireball_spawn_point.position.y
-	rocket_instance.global_position = global_position + Vector2(spawn_offset_x, spawn_offset_y)
 
-	# The rocket's initial direction doesn't strictly matter for homing,
-	# but it can be set for visual consistency or if it has an initial non-homing phase.
-	# For a truly immediate homing, the rocket will find its target in its _physics_process.
-	# However, it's good practice to give it an initial direction related to player facing.
-	rocket_instance.rotation = Vector2(facing_direction, 0).angle()
+	# REMOVED: The check that prevented rockets from firing if no enemy was found.
+	# Rockets will now always be launched, even if they have no initial homing target.
+	# if not target_enemy:
+	#     print("No enemy found for rockets to target!")
+	#     # Optionally play a different animation or do nothing if no target.
+	#     return
 
-	# Optional: Trigger a shooting animation for the player
+	# Base spawn position (using the existing fireball spawn point logic)
+	var base_spawn_offset_x = fireball_spawn_point.position.x * facing_direction
+	var base_spawn_offset_y = fireball_spawn_point.position.y
+	var base_spawn_position = global_position + Vector2(base_spawn_offset_x, base_spawn_offset_y)
+
+	# --- Rocket 1: Launches slightly left and upward ---
+	var rocket1 = rocket_scene.instantiate()
+	get_tree().current_scene.add_child(rocket1)
+	# Position rocket 1 slightly offset up from the spawn point
+	rocket1.global_position = base_spawn_position + Vector2(0, -10)
+	# Pass its initial broad direction: slightly left (-0.1) and upward (-1)
+	# The .normalized() ensures the vector has a length of 1, so speed is consistent.
+	rocket1.set_initial_properties(Vector2(-0.02, -0.01).normalized(), target_enemy)
+
+
+	# --- Rocket 2: Launches slightly right and upward ---
+	var rocket2 = rocket_scene.instantiate()
+	get_tree().current_scene.add_child(rocket2)
+	# Position rocket 2 slightly offset down from the spawn point
+	rocket2.global_position = base_spawn_position + Vector2(0, 10)
+	# Pass its initial broad direction: slightly right (0.1) and upward (-1)
+	rocket2.set_initial_properties(Vector2(0.02, -0.01).normalized(), target_enemy)
+
+
+	# Optional: Trigger a shooting animation for the player (if you have one for this)
 	# if anim_state:
-	#     anim_state.travel("UltimateCyber_Attack") # Assuming you have a Ultimate Cyber attack animation
-	print("Player in Ultimate Cyber mode shot a homing rocket!")
-		
+	#     anim_state.travel("UltimateCyber_Attack")
+	print("Player in Ultimate Cyber mode shot two homing rockets!")
+
+
+# NEW: Helper function to find the closest enemy specifically for the rockets
+# This function is used by shoot_rocket() to ensure both rockets target the same enemy.
+func find_closest_enemy_for_rockets() -> Node2D:
+	var closest_enemy: Node2D = null
+	var min_distance_sq = INF # Using squared distance for faster comparison
+
+	# Get all nodes in the "Enemies" group. Make sure your enemies are in this group!
+	var enemies = get_tree().get_nodes_in_group("Enemies")
+
+	for enemy in enemies:
+		# Ensure the enemy is a valid object and not the player character itself
+		if is_instance_valid(enemy) and not (enemy is Player):
+			var distance_sq = global_position.distance_squared_to(enemy.global_position)
+			if distance_sq < min_distance_sq:
+				min_distance_sq = distance_sq
+				closest_enemy = enemy
+	return closest_enemy
 
 
 func _on_combo_timer_timeout():
 	can_attack = false
 	attack_cooldown_timer.start(2.0)  # 0.5 sec cooldown
 	print("combo,timer attck start")
+
+
+#Adding this in the future?
+#Add mana? maybe no need mana for now
+#Add key items?
+# items: Array of Dictionaries: [{"id": "sword_basic", "quantity": 1}, {"id": "health_potion", "quantity": 3}]
+#
+
+# --- Inventory Management Functions (NEW) ---
+func add_item_to_inventory(item_id: String):
+	if not inventory.has(item_id):
+		inventory.append(item_id)
+		print("Added '", item_id, "' to inventory. Current inventory: ", inventory)
+	else:
+		print("Item '", item_id, "' already in inventory.")
+
+func has_item_in_inventory(item_id: String) -> bool:
+	return inventory.has(item_id)
+
+func remove_item_from_inventory(item_id: String):
+	if inventory.has(item_id):
+		inventory.erase(item_id)
+		print("Removed '", item_id, "' from inventory. Current inventory: ", inventory)
+		return true
+	print("Item '", item_id, "' not found in inventory.")
+	return false
+	
+
+# --- NEW: Function to gather player data for saving ---
+func get_save_data() -> Dictionary:
+	var player_data = {
+		"position_x": global_position.x,
+		"position_y": global_position.y,
+		"health": health,
+		#"current_magic_spot_path": current_magic_spot.get_path() if current_magic_spot else null, # Save path to current MagusSpot if any
+		"current_state_name": get_current_form_id(), # The name of the currently active form
+		"unlocked_states": unlocked_states, # Array of unlocked state names
+		"selected_form_index": Global.selected_form_index,
+		"inventory": [], # NEW: An array to store collected item IDs or names, e.g., ["key_blue", "health_potion"]
+		# Add any other relevant player specific data here:
+		#"allow_camouflage": allow_camouflage,
+		#"allow_time_freeze": allow_time_freeze,
+		#"telekinesis_enabled": telekinesis_enabled,
+		#"canon_enabled": canon_enabled,
+		# ... e.g., inventory, collected items, etc.
+	}
+	return player_data
+
+# --- NEW: Function to apply loaded player data ---
+# --- Function to apply loaded player data ---
+func apply_load_data(data: Dictionary):
+	print("Player.apply_load_data: Function called to apply data.") # Debug print
+
+	# Position
+	if data.has("position_x") and data.has("position_y"):
+		global_position = Vector2(data.position_x, data.position_y)
+		print("Player loaded position: ", global_position)
+	
+	# Health
+	health = data.get("health", 100) # Use get with default to prevent errors if old save doesn't have it
+	print("Player loaded health: ", health)
+
+	# Forms/States
+	var loaded_unlocked_states = data.get("unlocked_states", ["Normal"])
+	# Reset unlocked states and flags first to avoid duplicates/inconsistencies
+	unlocked_flags = { 
+		"UltimateMagus": false, "Magus": false, "Normal": false,
+		"Cyber": false, "UltimateCyber": false
+	}
+	unlocked_states.clear() # Clear existing array
+	for state_name in loaded_unlocked_states:
+		unlock_state(state_name) # Use your existing unlock_state function
+	if not unlocked_flags["Normal"]: # Safety check
+		unlock_state("Normal")
+	print("Player loaded unlocked states: ", unlocked_states)
+
+	var loaded_state_name = data.get("current_state_name", "Normal")
+	switch_state(loaded_state_name) # Re-apply current form (ensure this updates `current_state`)
+	current_state_index = unlocked_states.find(loaded_state_name)
+	if current_state_index == -1: current_state_index = 0 # Fallback if state not found
+	Global.selected_form_index = data.get("selected_form_index", current_state_index) # Update local selected_form_index
+	print("Player loaded form: ", loaded_state_name)
+	
+
+	inventory = data.get("inventory", []) # Load inventory
+
+	# After loading, reset velocity and wait for physics frame to stabilize position
+	await get_tree().physics_frame # THIS AWAIT IS CRUCIAL FOR POSITION TO SETTLE
+	velocity = Vector2.ZERO # Ensure player doesn't have old velocity after loading
+
+# ... (rest of your player.gd code) ...

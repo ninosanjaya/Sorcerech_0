@@ -1,9 +1,12 @@
+res://scripts/world
+res://
+res://scenes/ui
+res://scripts/UI
+res://config
 res://scripts/objects
 res://assets image
 res://shaders
-res://config
 res://scripts/enemies
-res://scripts/UI
 res://scenes/tileset
 res://dialogic/characters
 res://dialogic/timeline
@@ -13,5 +16,3 @@ res://scripts/dialog
 C:/Program Files/Java/jdk-17/bin
 res://scenes/world
 res://scripts/rooms
-res://scripts/world
-res://

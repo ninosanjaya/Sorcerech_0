@@ -6,6 +6,7 @@
 size = Vector2(46, 33.5)
 
 [node name="MagusSpot" type="Area2D"]
+collision_mask = 3
 script = ExtResource("1_jxo7w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

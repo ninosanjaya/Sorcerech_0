@@ -8,6 +8,8 @@ extends Node
 ## - Provides access to all the subsystems.[br]
 ## - Has methods to start/end timelines.[br]
 
+signal dialog_started
+signal dialog_ended
 
 ## States indicating different phases of dialog.
 enum States {
@@ -223,6 +225,7 @@ func start_timeline(timeline:Variant, label_or_idx:Variant = "") -> void:
 			current_event_idx = label_or_idx -1
 
 	timeline_started.emit()
+	dialog_started.emit()
 	handle_next_event()
 
 
@@ -245,6 +248,7 @@ func preload_timeline(timeline_resource:Variant) -> Variant:
 func end_timeline() -> void:
 	await clear(ClearFlags.TIMELINE_INFO_ONLY)
 	_on_timeline_ended()
+	dialog_ended.emit()
 	timeline_ended.emit()
 
 

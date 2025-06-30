@@ -16,7 +16,7 @@ func _init(_player):
 	add_child(combat_fsm)
 
 func enter():
-	Global.playerDamageAmount = 40
+	Global.playerDamageAmount = 30
 	print("Entered Ultimate Cyber State")
 	# e.g. change player color or animation
 	

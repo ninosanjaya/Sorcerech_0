@@ -6,6 +6,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ap75k"]
 
 [node name="Fireball" type="Area2D"]
+collision_layer = 8
+collision_mask = 6
 script = ExtResource("1_hdakx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
