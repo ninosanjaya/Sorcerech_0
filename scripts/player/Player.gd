@@ -409,7 +409,7 @@ func update_aim_ui(angle):
 	
 func get_nearby_telekinesis_objects() -> Array[TelekinesisObject]:
 	var results: Array[TelekinesisObject] = []
-	var radius = 200
+	var radius = 150
 
 	var all = get_tree().get_nodes_in_group("TelekinesisObject")
 	print("Found in group:", all.size())

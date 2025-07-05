@@ -1,8 +1,6 @@
 fc8a56933c4b1c8d796fdb8f7a9f9475
-::res://::1751301388
+::res://::1751710875
 export_presets.cfg::TextFile::-1::1745606209::0::1::::<><>::
-mouse_test_scene.tscn::PackedScene::4097297917150880116::1751235266::0::1::::<><>::res://TestButton.gd
-TestButton.gd::GDScript::-1::1751235261::0::1::::<>Button<>::
 ::res://addons/::1745598732
 ::res://addons/dialogic/::1745598733
 plugin.cfg::TextFile::-1::1745598733::0::1::::<><>::
@@ -1974,29 +1972,29 @@ gem.png::CompressedTexture2D::7803712969116608151::1748689582::1748689683::1::::
 Global.gd::GDScript::-1::1751232290::0::1::::<>Node<>::
 Health.gd::GDScript::-1::1751199084::0::1::::<>Node<>::
 SaveLoadManager.gd::GDScript::-1::1751234456::0::1::::<>Node<>::
-::res://dialogic/::1751223254
-Style1.tres::Resource/DialogicStyle::5833768707364281777::1751223254::0::1::::<><>::res://addons/dialogic/Resources/dialogic_style_layer.gd<>uid://c1k5m0w3r40xf::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_FullBackground/full_background_layer.tscn<>uid://cy1y14inwkplb::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Portraits/vn_portrait_layer.tscn<>uid://cn674foxwedqu::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn<>uid://bquja8jyk8kbr::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.tscn<>uid://dsbwnp5hegnu3::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Glossary/glossary_popup_layer.tscn<>uid://dhk6j6eb6e3q::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.tscn<>uid://cvgf4c6gg0tsy::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_TextInput/text_input_layer.tscn<>uid://lx24i8fl6uo::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_History/history_layer.tscn<>res://addons/dialogic/Resources/dialogic_style.gd
+::res://dialogic/::1751487474
+Style1.tres::Resource/DialogicStyle::5833768707364281777::1751487474::0::1::::<><>::res://addons/dialogic/Resources/dialogic_style_layer.gd<>uid://c1k5m0w3r40xf::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_FullBackground/full_background_layer.tscn<>uid://cy1y14inwkplb::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Portraits/vn_portrait_layer.tscn<>uid://cn674foxwedqu::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn<>uid://bquja8jyk8kbr::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.tscn<>uid://dsbwnp5hegnu3::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Glossary/glossary_popup_layer.tscn<>uid://dhk6j6eb6e3q::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.tscn<>uid://cvgf4c6gg0tsy::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_TextInput/text_input_layer.tscn<>uid://lx24i8fl6uo::::res://addons/dialogic/Modules/DefaultLayoutParts/Layer_History/history_layer.tscn<>res://addons/dialogic/Resources/dialogic_style.gd
 ::res://dialogic/characters/::1751206239
 character1.dch::Resource/Resource::-1::1751206238::0::1::::<><>::
 character2.dch::Resource/Resource::-1::1751206239::0::1::::<><>::
 ::res://dialogic/timeline/::1751209761
 timeline1.dtl::Resource/Resource::-1::1751209761::0::1::::<><>::
 ::res://scenes/::1749396548
-::res://scenes/enemies/::1751235266
-Enemy.tscn::PackedScene::377695782090995090::1751235266::0::1::::<><>::res://scripts/enemies/Enemy.gd<>uid://b68njlo1v4ham::::res://assets image/placeholder/Characters/Enemies and NPC/enemy-ghost/Spritesheets/transparent-no-particles.png
-::res://scenes/objects/::1751235265
-Fireball.tscn::PackedScene::1208901401094590972::1751235265::0::1::::<><>::res://scripts/objects/Fireball.gd<>uid://bqajdlgkcw10s::::res://assets image/placeholder/Props Items and VFX/fireball/Sprites/fireball-4.png
+::res://scenes/enemies/::1751487474
+Enemy.tscn::PackedScene::377695782090995090::1751487474::0::1::::<><>::res://scripts/enemies/Enemy.gd<>uid://b68njlo1v4ham::::res://assets image/placeholder/Characters/Enemies and NPC/enemy-ghost/Spritesheets/transparent-no-particles.png
+::res://scenes/objects/::1751487474
+Fireball.tscn::PackedScene::1208901401094590972::1751487474::0::1::::<><>::res://scripts/objects/Fireball.gd<>uid://bqajdlgkcw10s::::res://assets image/placeholder/Props Items and VFX/fireball/Sprites/fireball-4.png
 GrapplePoint.gd::GDScript::-1::1751199084::0::1::::<>Area2D<>::
 GrapplePoint.tscn::PackedScene::5132194062804988261::1751132766::0::1::::<><>::res://scenes/objects/GrapplePoint.gd
-Rocket.tscn::PackedScene::454760175561503324::1751235265::0::1::::<><>::res://scripts/objects/Rocket.gd<>uid://dpt41kojpl8jr::::res://assets image/placeholder/Characters/Enemies and NPC/flying-bird/Sprites/flying-creature-cycle-skin1.png
+Rocket.tscn::PackedScene::454760175561503324::1751487474::0::1::::<><>::res://scripts/objects/Rocket.gd<>uid://dpt41kojpl8jr::::res://assets image/placeholder/Characters/Enemies and NPC/flying-bird/Sprites/flying-creature-cycle-skin1.png
 TObject.gd::GDScript::-1::1751199086::0::1::::TelekinesisObject<>RigidBody2D<>::
 TObject.tscn::PackedScene::737067446185535959::1751132767::0::1::::<><>::res://scenes/objects/TObject.gd<>uid://com3npnfr635k::::res://assets image/placeholder/Props Items and VFX/acorn/Sprites/acorn-1.png<>uid://btras4giugcwr::::res://shaders/OutlineMaterial.tres
-::res://scenes/player/::1751235265
-player.tscn::PackedScene::5800555975108132917::1751235265::0::1::::<><>::res://scripts/player/Player.gd<>uid://cjuodrpw4jqfs::::res://assets image/placeholder/Characters/Players/Foxy/Spritesheet.png<>res://scripts/player/TelekinesisController.gd<>uid://bktget78trv7d::::res://scenes/ui/TelekinesisUI.tscn<>uid://cfx7o4ov6w8i0::::res://assets image/placeholder/Props Items and VFX/acorn/Sprites/acorn-2.png
-::res://scenes/rooms/::1751235266
+::res://scenes/player/::1751487474
+player.tscn::PackedScene::5800555975108132917::1751487474::0::1::::<><>::res://scripts/player/Player.gd<>uid://cjuodrpw4jqfs::::res://assets image/placeholder/Characters/Players/Foxy/Spritesheet.png<>res://scripts/player/TelekinesisController.gd<>uid://bktget78trv7d::::res://scenes/ui/TelekinesisUI.tscn<>uid://cfx7o4ov6w8i0::::res://assets image/placeholder/Props Items and VFX/acorn/Sprites/acorn-2.png
+::res://scenes/rooms/::1751487475
 Room_AerendaleBattlefield.tscn::PackedScene::7260148446246505726::1751133941::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
 Room_AerendaleCapital.tscn::PackedScene::3093444126024054389::1751133951::0::1::::<><>::res://scripts/world/Door.gd<>uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres
-Room_AerendaleJunkyard.tscn::PackedScene::5707277269270265212::1751235266::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
+Room_AerendaleJunkyard.tscn::PackedScene::5707277269270265212::1751487475::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
 Room_AerendaleTown.tscn::PackedScene::7681355485041765444::1751133894::0::1::::<><>::res://scripts/rooms/Room_Hub.gd<>res://scripts/world/Door.gd<>uid://iv6kxjhc61g2::::res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png
 Room_ExactlyionBattlefield.tscn::PackedScene::167279959964124736::1751134068::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
 Room_ExactlyionCentral.tscn::PackedScene::1902662368922983704::1751134077::0::1::::<><>::res://scripts/world/Door.gd<>uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres
@@ -2010,20 +2008,20 @@ Room_TromarveliaCastle.tscn::PackedScene::102295196065589381::1751134039::0::1::
 Room_TromarveliaDungeon.tscn::PackedScene::6019193351417407186::1751134046::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
 Room_TromarveliaNora.tscn::PackedScene::2408570565596070561::1751134054::0::1::::<><>::uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
 Room_TromarveliaTown.tscn::PackedScene::9179670591430063944::1751133980::0::1::::<><>::res://scripts/rooms/Room_MagusTown.gd<>uid://dckcj5o6bchxt::::res://scenes/tileset/Placeholder_new_tile_set.tres<>res://scripts/world/Door.gd
-::res://scenes/tileset/::1751223255
-Placeholder_new_tile_set.tres::TileSet::7320422620764330813::1751223255::0::1::::<><>::uid://iv6kxjhc61g2::::res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png
-::res://scenes/ui/::1751235265
+::res://scenes/tileset/::1751487474
+Placeholder_new_tile_set.tres::TileSet::7320422620764330813::1751487474::0::1::::<><>::uid://iv6kxjhc61g2::::res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png
+::res://scenes/ui/::1751487474
 main.gd::GDScript::-1::1751199085::0::1::::<>Node<>::
-MainMenu.tscn::PackedScene::6937457111996648777::1751235265::0::1::::<><>::res://scripts/UI/MainMenu.gd
+MainMenu.tscn::PackedScene::6937457111996648777::1751487474::0::1::::<><>::res://scripts/UI/MainMenu.gd
 TelekinesisUI.tscn::PackedScene::3127904791435625967::1751132767::0::1::::<><>::res://scripts/UI/TelekinesisUI.gd
-::res://scenes/world/::1751235266
+::res://scenes/world/::1751487475
 CyberSpot.gd::GDScript::-1::1751199083::0::1::::<>Area2D<>::
-CyberSpot.tscn::PackedScene::6696099688749309943::1751235266::0::1::::<><>::res://scenes/world/CyberSpot.gd
+CyberSpot.tscn::PackedScene::6696099688749309943::1751487474::0::1::::<><>::res://scenes/world/CyberSpot.gd
 MagusSpot.gd::GDScript::-1::1751199085::0::1::::MagusSpot<>Area2D<>::
-MagusSpot.tscn::PackedScene::2914794079911513478::1751235266::0::1::::<><>::res://scenes/world/MagusSpot.gd
-SaveSpot.tscn::PackedScene::3705065653136599745::1751235266::0::1::::<><>::res://scripts/world/SaveSpot.gd
+MagusSpot.tscn::PackedScene::2914794079911513478::1751487475::0::1::::<><>::res://scenes/world/MagusSpot.gd
+SaveSpot.tscn::PackedScene::3705065653136599745::1751487474::0::1::::<><>::res://scripts/world/SaveSpot.gd
 transition_manager.tscn::PackedScene::158705670625126952::1751132766::0::1::::<><>::res://scripts/world/TransitionManager.gd
-world.tscn::PackedScene::3670445391285738701::1751235265::0::1::::<><>::res://scripts/world/World.gd<>uid://iv6kxjhc61g2::::res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png<>uid://cov3kryfnxah6::::res://scenes/player/player.tscn<>uid://dho52j1svafa7::::res://scenes/rooms/Room_AerendaleTown.tscn<>uid://d31x3lq4tpd8s::::res://scenes/rooms/Room_TromarveliaTown.tscn<>uid://cnkwa1lnnfamm::::res://scenes/rooms/Room_AerendaleJunkyard.tscn<>uid://bkcqtqfijxmyn::::res://scenes/rooms/Room_AerendaleCapital.tscn<>uid://dbo4t4k7ob3qg::::res://scenes/rooms/Room_AerendaleBattlefield.tscn<>uid://2y3devuwcuju::::res://scenes/rooms/Room_ExactlyionTown.tscn<>uid://cum4bca2wrlj3::::res://scenes/rooms/Room_HiddenTown.tscn<>uid://ci44hikud0mu::::res://scenes/world/transition_manager.tscn<>uid://klvtn501ec6g::::res://scenes/rooms/Room_HiddenRuins.tscn<>uid://b3dq36l3txbp4::::res://scenes/rooms/Room_TromarveliaBattlefield.tscn<>uid://bps10xv2v18d::::res://scenes/rooms/Room_TromarveliaCastle.tscn<>uid://cr00h80xpx5tm::::res://scenes/rooms/Room_TromarveliaDungeon.tscn<>uid://baky2m7irkgi0::::res://scenes/rooms/Room_TromarveliaNora.tscn<>uid://cnbcuo1v16c7::::res://scenes/rooms/Room_ExactlyionBattlefield.tscn<>uid://2dwtol1f3sey::::res://scenes/rooms/Room_ExactlyionCentral.tscn<>uid://djx4sn2eal13h::::res://scenes/rooms/Room_ExactlyionMainframe.tscn<>uid://c8nfmopkmdkk7::::res://scenes/rooms/Room_ExactlyionValentina.tscn<>uid://cfecqsjeojxxt::::res://scenes/objects/GrapplePoint.tscn<>uid://c2nv1v2dftw2b::::res://scenes/world/CyberSpot.tscn<>uid://bhr7h56wnxj71::::res://scenes/world/MagusSpot.tscn<>uid://krbnmqo4s6nb::::res://scenes/objects/TObject.tscn<>uid://fm7uhcj7tcrq::::res://scenes/enemies/Enemy.tscn<>uid://bs105i3gcljkr::::res://scenes/world/SaveSpot.tscn
+world.tscn::PackedScene::3670445391285738701::1751487474::0::1::::<><>::res://scripts/world/World.gd<>uid://iv6kxjhc61g2::::res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png<>uid://cov3kryfnxah6::::res://scenes/player/player.tscn<>uid://dho52j1svafa7::::res://scenes/rooms/Room_AerendaleTown.tscn<>uid://d31x3lq4tpd8s::::res://scenes/rooms/Room_TromarveliaTown.tscn<>uid://cnkwa1lnnfamm::::res://scenes/rooms/Room_AerendaleJunkyard.tscn<>uid://bkcqtqfijxmyn::::res://scenes/rooms/Room_AerendaleCapital.tscn<>uid://dbo4t4k7ob3qg::::res://scenes/rooms/Room_AerendaleBattlefield.tscn<>uid://2y3devuwcuju::::res://scenes/rooms/Room_ExactlyionTown.tscn<>uid://cum4bca2wrlj3::::res://scenes/rooms/Room_HiddenTown.tscn<>uid://ci44hikud0mu::::res://scenes/world/transition_manager.tscn<>uid://klvtn501ec6g::::res://scenes/rooms/Room_HiddenRuins.tscn<>uid://b3dq36l3txbp4::::res://scenes/rooms/Room_TromarveliaBattlefield.tscn<>uid://bps10xv2v18d::::res://scenes/rooms/Room_TromarveliaCastle.tscn<>uid://cr00h80xpx5tm::::res://scenes/rooms/Room_TromarveliaDungeon.tscn<>uid://baky2m7irkgi0::::res://scenes/rooms/Room_TromarveliaNora.tscn<>uid://cnbcuo1v16c7::::res://scenes/rooms/Room_ExactlyionBattlefield.tscn<>uid://2dwtol1f3sey::::res://scenes/rooms/Room_ExactlyionCentral.tscn<>uid://djx4sn2eal13h::::res://scenes/rooms/Room_ExactlyionMainframe.tscn<>uid://c8nfmopkmdkk7::::res://scenes/rooms/Room_ExactlyionValentina.tscn<>uid://cfecqsjeojxxt::::res://scenes/objects/GrapplePoint.tscn<>uid://c2nv1v2dftw2b::::res://scenes/world/CyberSpot.tscn<>uid://bhr7h56wnxj71::::res://scenes/world/MagusSpot.tscn<>uid://krbnmqo4s6nb::::res://scenes/objects/TObject.tscn<>uid://fm7uhcj7tcrq::::res://scenes/enemies/Enemy.tscn<>uid://bs105i3gcljkr::::res://scenes/world/SaveSpot.tscn
 ::res://scripts/::1751131066
 ::res://scripts/dialog/::1751199084
 Dialog.gd::GDScript::-1::1751199084::0::1::::<>CanvasLayer<>::
@@ -2046,9 +2044,9 @@ IdleState.gd::GDScript::-1::1751211115::0::1::::IdleState<>CombatState<>::
 JumpState.gd::GDScript::-1::1751199084::0::1::::JumpState<>CombatState<>::
 RunState.gd::GDScript::-1::1751199085::0::1::::RunState<>CombatState<>::
 SkillState.gd::GDScript::-1::1751199085::0::1::::SkillState<>CombatState<>::
-::res://scripts/player/player_states/::1751199086
+::res://scripts/player/player_states/::1751486702
 BaseState.gd::GDScript::-1::1751199083::0::1::::BaseState<>Node<>::
-CyberState.gd::GDScript::-1::1751199083::0::1::::CyberState<>BaseState<>::
+CyberState.gd::GDScript::-1::1751486702::0::1::::CyberState<>BaseState<>::
 MagusState.gd::GDScript::-1::1751199085::0::1::::MagusState<>BaseState<>::
 NormalState.gd::GDScript::-1::1751199085::0::1::::NormalState<>BaseState<>::
 UltimateCyberState.gd::GDScript::-1::1751199086::0::1::::UltimateCyberState<>BaseState<>::
@@ -2058,15 +2056,15 @@ Room_CyberTown.gd::GDScript::-1::1751199085::0::1::::<>Node2D<>::
 Room_HiddenTown.gd::GDScript::-1::1751199085::0::1::::<>Node2D<>::
 Room_Hub.gd::GDScript::-1::1751199085::0::1::::<>Node2D<>::
 Room_MagusTown.gd::GDScript::-1::1751199085::0::1::::<>Node2D<>::
-::res://scripts/UI/::1751234862
-MainMenu.gd::GDScript::-1::1751234862::0::1::::<>Control<>::
+::res://scripts/UI/::1751303564
+MainMenu.gd::GDScript::-1::1751303564::0::1::::<>CanvasLayer<>::
 TelekinesisUI.gd::GDScript::-1::1751199086::0::1::::<>CanvasLayer<>::
 ::res://scripts/world/::1751230222
 Door.gd::GDScript::-1::1751199084::0::1::::<>Area2D<>::
 SaveSpot.gd::GDScript::-1::1751230222::0::1::::SaveSpot<>Area2D<>::
 TransitionManager.gd::GDScript::-1::1751199086::0::1::::<>CanvasLayer<>::
 World.gd::GDScript::-1::1751209931::0::1::::<>Node2D<>::
-::res://shaders/::1751235309
-camouflage_alpha.gdshader::Shader::-1::1751235309::0::1::::<><>::
-highlight.gdshader::Shader::-1::1751235309::0::1::::<><>::
+::res://shaders/::1751487540
+camouflage_alpha.gdshader::Shader::-1::1751487540::0::1::::<><>::
+highlight.gdshader::Shader::-1::1751487540::0::1::::<><>::
 OutlineMaterial.tres::ShaderMaterial::3755136811761450357::1749483652::0::1::::<><>::res://shaders/highlight.gdshader

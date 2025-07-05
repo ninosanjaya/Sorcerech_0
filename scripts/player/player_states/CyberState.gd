@@ -167,28 +167,18 @@ func perform_grapple():
 		if distance > MAX_GRAPPLE_DISTANCE:
 			continue
 
-		# Perform a raycast to check for line of sight to the target
 		var query = PhysicsRayQueryParameters2D.create(player.global_position, target.global_position)
-		query.exclude = [player] # Exclude player from the raycast
+		query.exclude = [player]
 		var result = space_state.intersect_ray(query)
 
-		# Debug lines were present in original code; commented out for cleaner output
-		# They are useful for visualizing raycasts during development.
-		# var debug_line = Line2D.new()
-		# debug_line.width = 2
-		# debug_line.default_color = Color.RED
-		# debug_line.add_point(Vector2.ZERO)
-		# debug_line.add_point(target.global_position - player.global_position)
-		# debug_line.position = player.global_position
-		# player.get_tree().get_root().add_child(debug_line)
-		# await player.get_tree().create_timer(0.2).timeout
-		# debug_line.queue_free()
-
-		# If raycast hit nothing or hit the target itself (clear line of sight)
+		# Only allow grappling if nothing is in the way or the hit is the target itself
 		if result.is_empty() or result.collider == target:
 			if distance < closest_distance:
 				closest_target = target
 				closest_distance = distance
+		else:
+			# Optional: Debug what the ray hits
+			print("Blocked by: ", result.collider.name)
 
 	# If a valid grapple target was found
 	if closest_target:
