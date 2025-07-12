@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bsj8x1oxp0cqn"]
+[gd_scene load_steps=24 format=3 uid="uid://bsj8x1oxp0cqn"]
 
 [ext_resource type="Script" path="res://scripts/world/World.gd" id="1_u45c0"]
 [ext_resource type="Texture2D" uid="uid://iv6kxjhc61g2" path="res://assets image/placeholder/Environments/Day-Platformer/PNG/tileset.png" id="2_4lsge"]
@@ -20,12 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://2dwtol1f3sey" path="res://scenes/rooms/Room_ExactlyionCentral.tscn" id="17_krnns"]
 [ext_resource type="PackedScene" uid="uid://djx4sn2eal13h" path="res://scenes/rooms/Room_ExactlyionMainframe.tscn" id="18_whwtb"]
 [ext_resource type="PackedScene" uid="uid://c8nfmopkmdkk7" path="res://scenes/rooms/Room_ExactlyionValentina.tscn" id="19_ieie6"]
-[ext_resource type="PackedScene" uid="uid://cfecqsjeojxxt" path="res://scenes/objects/GrapplePoint.tscn" id="21_k476w"]
-[ext_resource type="PackedScene" uid="uid://c2nv1v2dftw2b" path="res://scenes/world/CyberSpot.tscn" id="22_syb5s"]
-[ext_resource type="PackedScene" uid="uid://bhr7h56wnxj71" path="res://scenes/world/MagusSpot.tscn" id="23_p3c4c"]
-[ext_resource type="PackedScene" uid="uid://krbnmqo4s6nb" path="res://scenes/objects/TObject.tscn" id="24_3ccml"]
-[ext_resource type="PackedScene" uid="uid://fm7uhcj7tcrq" path="res://scenes/enemies/Enemy.tscn" id="25_h2yog"]
-[ext_resource type="PackedScene" uid="uid://bs105i3gcljkr" path="res://scenes/world/SaveSpot.tscn" id="26_wuffn"]
+[ext_resource type="PackedScene" uid="uid://bew4rnh5f46sy" path="res://scenes/world/cutscene_manager.tscn" id="21_sl30v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ipdlw"]
 texture = ExtResource("2_4lsge")
@@ -353,7 +348,7 @@ texture = ExtResource("2_4lsge")
 0:10/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_jlx8q"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
 sources/0 = SubResource("TileSetAtlasSource_ipdlw")
 
 [node name="World" type="Node2D"]
@@ -362,16 +357,18 @@ script = ExtResource("1_u45c0")
 [node name="TileMap" type="TileMap" parent="." groups=["Platforms"]]
 tile_set = SubResource("TileSet_jlx8q")
 format = 2
-layer_0/tile_data = PackedInt32Array(5832706, 917504, 4, 5636104, 917504, 4, 5636105, 917504, 4, 5636106, 917504, 4, 5636107, 917504, 4, 5636108, 917504, 4, 5832705, 917504, 4, 5832707, 917504, 4, 5832704, 917504, 4, 5832708, 917504, 4, 5636114, 917504, 4, 5636115, 917504, 4, 5636116, 917504, 4, 5505044, 917504, 4, 5570580, 917504, 4, 5570538, 917504, 4, 5570539, 917504, 4, 5570540, 917504, 4, 5570541, 917504, 4, 5570542, 917504, 4, 5570543, 917504, 4, 5570544, 917504, 4, 5570545, 917504, 4, 5570546, 917504, 4, 5570547, 917504, 4, 5570548, 917504, 4, 5570549, 917504, 4, 5570550, 917504, 4, 5570551, 917504, 4, 5570552, 917504, 4, 5570553, 917504, 4, 5570554, 917504, 4, 5570555, 917504, 4, 5570556, 917504, 4, 5046253, 917504, 4, 5046254, 917504, 4, 5046255, 917504, 4, 5046256, 917504, 4, 5046257, 917504, 4, 5111793, 917504, 4, 5111794, 917504, 4, 5111795, 917504, 4, 5111796, 917504, 4, 5111797, 917504, 4, 5111798, 917504, 4, 5111799, 917504, 4, 5111800, 917504, 4, 5111801, 917504, 4, 5111802, 917504, 4, 5046267, 917504, 4, 5046268, 917504, 4, 5046269, 917504, 4, 5046270, 917504, 4, 5046271, 917504, 4, 4980736, 917504, 4, 4980737, 917504, 4, 4980738, 917504, 4, 4980739, 917504, 4, 4980740, 917504, 4, 4980741, 917504, 4, 4980742, 917504, 4, 4980743, 917504, 4, 4980744, 917504, 4, 4980745, 917504, 4, 4980746, 917504, 4, 4980747, 917504, 4, 4980748, 917504, 4, 4980749, 917504, 4, 4980750, 917504, 4, 4980751, 917504, 4, 4980752, 917504, 4, 4980753, 917504, 4, 4980754, 917504, 4, 5570518, 917504, 4, 5570519, 917504, 4, 5570520, 917504, 4, 5636057, 917504, 4, 5636058, 917504, 4, 5636059, 917504, 4, 5636060, 917504, 4, 5636061, 917504, 4, 5636062, 917504, 4, 5636069, 917504, 4, 5636068, 917504, 4, 5636067, 917504, 4, 5636066, 917504, 4, 5636065, 917504, 4, 5636064, 917504, 4, 5636063, 917504, 4, 5701599, 917504, 4, 5701598, 917504, 4, 5701597, 917504, 4, 5701596, 917504, 4, 5046224, 917504, 4, 5046225, 917504, 4, 5046226, 917504, 4, 5046227, 917504, 4, 5046228, 917504, 4, 5046229, 917504, 4, 5046230, 917504, 4, 5570511, 917504, 4, 5570510, 917504, 4, 5636046, 917504, 4, 5636045, 917504, 4, 5636044, 917504, 4, 5570508, 917504, 4, 5570507, 917504, 4, 5636103, 917504, 4, 5439462, 917504, 4, 5373926, 917504, 4, 5308390, 917504, 4, 5242854, 917504, 4, 5177318, 917504, 4, 5177317, 917504, 4, 5111781, 917504, 4, 5046245, 917504, 4, 4980709, 917504, 4, 4915173, 917504, 4, 4849637, 917504, 4, 4784101, 917504, 4, 4718565, 917504, 4, 4390883, 917504, 4, 4390882, 917504, 4, 4456418, 917504, 4, 4456417, 917504, 4, 4456416, 917504, 4, 4456415, 917504, 4, 4456414, 917504, 4, 4456413, 917504, 4, 4456412, 917504, 4, 4456411, 917504, 4, 4456410, 917504, 4, 4456409, 917504, 4, 5570535, 917504, 4, 5504998, 917504, 4, 5570534, 917504, 4, 5636053, 917504, 4, 5701588, 917504, 4, 5767123, 917504, 4, 4980717, 917504, 4, 4915181, 917504, 4, 4849645, 917504, 4, 4784109, 917504, 4, 4718573, 917504, 4, 4653037, 917504, 4, 4587501, 917504, 4, 4587502, 917504, 4, 5570537, 917504, 4, 5570536, 917504, 4, 5439468, 917504, 4, 5373932, 917504, 4, 5308396, 917504, 4, 5242860, 917504, 4, 5177324, 917504, 4, 5111787, 917504, 4, 5111788, 917504, 4, 5046251, 917504, 4, 5046252, 917504, 4, 4980715, 917504, 4, 4915179, 917504, 4, 4849643, 917504, 4, 4784107, 917504, 4, 4718571, 917504, 4, 4653035, 917504, 4, 4980716, 917504, 4, 4915180, 917504, 4, 4849644, 917504, 4, 4784108, 917504, 4, 4718572, 917504, 4, 4653036, 917504, 4, 4980714, 917504, 4, 4915178, 917504, 4, 4849642, 917504, 4, 4784106, 917504, 4, 4718570, 917504, 4, 4653029, 917504, 4, 4521962, 917504, 4, 4587498, 917504, 4, 4653034, 917504, 4, 4653033, 917504, 4, 4521961, 917504, 4, 4587497, 917504, 4, 4128741, 917504, 4, 4194277, 917504, 4, 4259813, 917504, 4, 4325349, 917504, 4, 4390885, 917504, 4, 4456421, 917504, 4, 4521957, 917504, 4, 4587493, 917504, 4, 4194278, 917504, 4, 4259814, 917504, 4, 4325350, 917504, 4, 4390886, 917504, 4, 4456422, 917504, 4, 4521958, 917504, 4, 4325351, 917504, 4, 4259815, 917504, 4, 4194279, 917504, 4, 4128743, 917504, 4, 3997671, 917504, 4, 4063207, 917504, 4, 3997670, 917504, 4, 4063206, 917504, 4, 4128742, 917504, 4)
 
 [node name="Player" parent="." instance=ExtResource("2_ja6b4")]
-position = Vector2(-237, 1316)
+position = Vector2(188, 1446)
 
 [node name="Room_AerendaleTown" parent="." instance=ExtResource("3_sxhhb")]
 position = Vector2(-12, 14)
 
 [node name="Room_AerendaleJunkyard" parent="." instance=ExtResource("4_cshuq")]
 position = Vector2(-269, 1391)
+
+[node name="Marker2D" type="Marker2D" parent="Room_AerendaleJunkyard"]
+position = Vector2(-290, 20)
 
 [node name="Room_AerendaleBattlefield" parent="." instance=ExtResource("5_cbsf3")]
 position = Vector2(199, 2786)
@@ -417,26 +414,9 @@ position = Vector2(2504, 1320)
 
 [node name="TransitionManager" parent="." instance=ExtResource("7_uvy46")]
 
-[node name="GrapplePoint" parent="." instance=ExtResource("21_k476w")]
-position = Vector2(24, 1276)
+[node name="CutsceneManager" parent="." instance=ExtResource("21_sl30v")]
+position = Vector2(25, 1350)
+junkyard_spawn_path = NodePath("../Room_AerendaleJunkyard/Marker2D")
 
-[node name="GrapplePoint2" parent="." instance=ExtResource("21_k476w")]
-position = Vector2(223, 1274)
-
-[node name="CyberSpot" parent="." instance=ExtResource("22_syb5s")]
-position = Vector2(-341, 1340)
-
-[node name="MagusSpot" parent="." instance=ExtResource("23_p3c4c")]
-position = Vector2(-140, 1338)
-
-[node name="TObject" parent="." instance=ExtResource("24_3ccml")]
-position = Vector2(-271, 1291)
-
-[node name="TObject2" parent="." instance=ExtResource("24_3ccml")]
-position = Vector2(-197, 1310)
-
-[node name="Enemy" parent="." instance=ExtResource("25_h2yog")]
-position = Vector2(-295, 1432)
-
-[node name="SaveSpot" parent="." instance=ExtResource("26_wuffn")]
-position = Vector2(39, 1413)
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(189, 1435)

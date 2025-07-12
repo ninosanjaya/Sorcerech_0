@@ -28,7 +28,9 @@ func exit():
 	player.allow_time_freeze = false
 	Engine.time_scale = 1
 	Global.time_freeze = false
-	pass
+	
+	player.skill_cooldown_timer.start(0.1)
+	player.attack_cooldown_timer.start(0.1)
 
 func physics_process(delta):
 	combat_fsm.physics_update(delta)

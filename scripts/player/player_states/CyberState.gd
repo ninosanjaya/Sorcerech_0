@@ -86,6 +86,9 @@ func exit():
 	print("DEBUG_CYBERSTATE_EXIT: Exited Cyber State.")
 
 	release_grapple() # Ensure the grapple is released when leaving the CyberState
+	
+	player.skill_cooldown_timer.start(0.1)
+	player.attack_cooldown_timer.start(0.1)
 
 # Main physics update loop for the state
 func physics_process(delta):

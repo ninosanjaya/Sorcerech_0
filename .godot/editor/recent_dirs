@@ -1,4 +1,5 @@
 res://scripts/world
+res://scenes/world
 res://
 res://scenes/ui
 res://scripts/UI
@@ -14,5 +15,4 @@ res://dialogic
 res://scripts/player
 res://scripts/dialog
 C:/Program Files/Java/jdk-17/bin
-res://scenes/world
 res://scripts/rooms

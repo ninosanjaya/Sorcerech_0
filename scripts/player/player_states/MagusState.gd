@@ -107,6 +107,9 @@ func exit():
 	Global.camouflage = false
 	player.allow_camouflage = false
 	print("Camouflage OFF")
+	
+	player.skill_cooldown_timer.start(0.1)
+	player.attack_cooldown_timer.start(0.1)
 
 func physics_process(delta):
 	combat_fsm.physics_update(delta)

@@ -126,7 +126,7 @@ func update_selection():
 	# Clamp index if needed
 	selected_index = clamp(selected_index, 0, available_objects.size() - 1)
 	current_object = available_objects[selected_index]
-	print("Current object set to: ", current_object)
+	#print("Current object set to: ", current_object)
 	
 func highlight_object_list(obj_list: Array, selected_idx: int):
 	for i in range(obj_list.size()):

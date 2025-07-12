@@ -140,6 +140,7 @@ func handle_animation():
 		#attackcoll.disabled = false
 		animation_player.play("attack")
 		
+		#Global.camouflage == false
 		
 
 	#attack_timer.start(attack_cooldown)
@@ -223,14 +224,14 @@ func attack_frame():
 	Global.enemyAknockback = knockback_dir * 100.0  # You can adjust force here
 	
 func _on_deal_attack_area_area_entered(area):
-	if area == Global.playerHitbox and attack_target == null:
+	if area == Global.playerHitbox and attack_target == null and Global.camouflage == false:
 		attack_target = area.get_parent()
 		print("Player entered attack range")
 		attack_active = true
 		attack_timer.start()  # Start checking for attacks
 
 func _on_deal_attack_area_area_exited(area):
-	if area == Global.playerHitbox and attack_target != null:
+	if area == Global.playerHitbox and attack_target != null and Global.camouflage == false:
 		print("Player left attack range")
 		attack_target = null
 		attack_active = false

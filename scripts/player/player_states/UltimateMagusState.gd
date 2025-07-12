@@ -43,6 +43,9 @@ func exit():
 	is_holding = false
 	hold_time = 0.0
 	clear_highlights()
+	
+	player.skill_cooldown_timer.start(0.1)
+	player.attack_cooldown_timer.start(0.1)
 
 func physics_process(delta):
 	#print(player.can_skill)

@@ -1,7 +1,7 @@
 extends Area2D
 class_name Fireball
 
-@export var speed = 200.0 # How fast the fireball travels
+@export var speed = 150.0 # How fast the fireball travels
 @export var damage = 20   # How much damage the fireball deals
 @export var lifetime = 0.5 # How long the fireball exists before despawning (seconds)
 

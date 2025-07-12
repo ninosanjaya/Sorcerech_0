@@ -1,6 +1,8 @@
 class_name TelekinesisObject
 extends RigidBody2D
 
+@export var object_id: String   # Use "A", "B", "C", etc.
+
 @onready var sprite = $Sprite2D
 var is_controlled := false
 var offset := Vector2.ZERO

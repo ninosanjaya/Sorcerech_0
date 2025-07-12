@@ -15,6 +15,9 @@ func _on_dialog_started():
 func _on_dialog_ended():
 	is_dialog_open = false
 	
+
+var play_intro_cutscene := false
+
 var playerBody: CharacterBody2D
 
 

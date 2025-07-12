@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cnkwa1lnnfamm"]
+[gd_scene load_steps=5 format=3 uid="uid://cnkwa1lnnfamm"]
 
 [ext_resource type="TileSet" uid="uid://dckcj5o6bchxt" path="res://scenes/tileset/Placeholder_new_tile_set.tres" id="1_56olx"]
 [ext_resource type="Script" path="res://scripts/world/Door.gd" id="1_i5ly2"]
+[ext_resource type="PackedScene" uid="uid://bs105i3gcljkr" path="res://scenes/world/SaveSpot.tscn" id="3_p25pu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4c7w7"]
 size = Vector2(25, 31)
@@ -27,3 +28,6 @@ target_spawn = "Spawn_FromJunkyard"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_AerendaleTown"]
 position = Vector2(-126, 55)
 shape = SubResource("RectangleShape2D_4c7w7")
+
+[node name="SaveSpot" parent="." instance=ExtResource("3_p25pu")]
+position = Vector2(-55, 58)

@@ -1,11 +1,11 @@
 extends Area2D
 class_name Rocket
 
-@export var speed = 200.0          # How fast the rocket travels
+@export var speed = 150.0          # How fast the rocket travels
 @export var rotation_speed = 50.0   # How quickly the rocket turns towards its target
 @export var damage = 30            # How much damage the rocket deals
-@export var lifetime = 5.0         # How long the rocket exists before despawning (seconds)
-@export var initial_move_duration = 0.5 # Duration (seconds) for initial broad movement before full homing
+@export var lifetime = 2.0         # How long the rocket exists before despawning (seconds)
+@export var initial_move_duration = 0.3 # Duration (seconds) for initial broad movement before full homing
 
 var target: Node2D = null          # The enemy the rocket is trying to hit
 var initial_direction_vector = Vector2.ZERO # The broad direction given at spawn

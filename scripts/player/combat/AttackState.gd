@@ -31,7 +31,8 @@ func enter():
 			player.anim_state.travel("attack_ult_cyber")
 		"Normal":
 			#player.anim_sprite.play("normal_attack")
-			print("Normal attack")
+			#print("Normal attack")
+			pass
 			#player.still_animation = true
 
 
