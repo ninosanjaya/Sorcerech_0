@@ -12,11 +12,13 @@ func enter():
 			print("Magus skill")
 			player.still_animation = true
 			player.anim_state.travel("ability_magus")
+			Global.attacking = true
+			player.velocity.x = 0
 		"Cyber":
 			#player.anim_sprite.play("cyber_slash")
 			# Maybe activate grapple or combo effects
 			print("Cyber skill")
-			player.still_animation = true
+			player.still_animation = true # <--- This is correct for starting the skill animation
 			player.anim_state.travel("ability_cyber")
 		"UltimateMagus":
 			#player.anim_sprite.play("ultimate_magus_blast")
@@ -30,6 +32,8 @@ func enter():
 			print("Ultimate Cyber skill")
 			player.still_animation = true
 			player.anim_state.travel("ability_ult_cyber")
+			Global.attacking = true
+			player.velocity.x = 0
 		"Normal":
 			#player.anim_sprite.play("normal_attack")
 			#print("Normal skill")
@@ -37,7 +41,10 @@ func enter():
 			#player.still_animation = true
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func physics_update(delta):
+	# The key here is that if player.still_animation is true (set by CyberState when grappling),
+	# this condition will evaluate to false, and the state will NOT change.
 	if !(Input.is_action_just_pressed("no")) and player.still_animation == false:
+		Global.attacking = false
 		if player.is_on_floor():
 			if Input.is_action_pressed("move_left") or Input.is_action_pressed("move_right"):
 				#print("IdleState: Detected movement input → switching to RunState")

@@ -40,10 +40,10 @@ offset_bottom = 318.0
 text = "Minigame"
 
 [node name="Label" type="Label" parent="."]
-offset_left = -516.0
-offset_top = -328.0
-offset_right = -447.0
-offset_bottom = -305.0
+offset_left = -556.0
+offset_top = -384.0
+offset_right = -487.0
+offset_bottom = -361.0
 text = "Junkyard"
 
 [node name="Label3" type="Label" parent="."]

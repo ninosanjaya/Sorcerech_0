@@ -18,7 +18,7 @@ var attack_timer := 0.0 # Timer for managing attack duration (if any)
 
 # === Grapple Mechanics Constants ===
 
-const PULL_SPEED = 200.0        # Base speed at which player is pulled toward grapple point (when not swinging)
+const PULL_SPEED = 200.0         # Base speed at which player is pulled toward grapple point (when not swinging)
 const PULL_ACCELERATION = 2000.0 # How quickly the player accelerates toward the grapple point
 
 const MAX_GRAPPLE_DISTANCE = 100.0 # Max distance to detect and attach to a grapple target
@@ -29,10 +29,10 @@ const SWING_MODE_DISTANCE = 80.0 # When distance is less than this, switch from 
 var angular_velocity = 0.0      # Speed of swing (angular), increases with input torque
 var swing_velocity = Vector2.ZERO # Actual velocity used during swing motion, preserved on release
 
-const SWING_FORCE = 800.0       # Force applied when moving left/right during grapple (useful for control while pulling)
+const SWING_FORCE = 800.0         # Force applied when moving left/right during grapple (useful for control while pulling)
 const PENDULUM_GRAVITY = 1200.0 # Simulated gravity force used in swing calculations. Matches global GRAVITY.
-var swing_angle = 0.0           # Radians, angle from the grapple point (relative to Y-axis)
-const SWING_TORQUE = 10.0       # How much input affects angular velocity
+var swing_angle = 0.0             # Radians, angle from the grapple point (relative to Y-axis)
+const SWING_TORQUE = 10.0         # How much input affects angular velocity
 const ANGULAR_DAMPING = 0.99    # Damping to prevent perpetual motion in the swing
 
 # NEW CONSTANTS FOR SMOOTHER SWING
@@ -162,6 +162,7 @@ func perform_grapple():
 		grapple_point = closest_target.global_position
 		is_grappling = true
 		player.is_grappling_active = true # Inform player.gd that grappling is active
+		player.still_animation = true # <--- ADD THIS LINE: Keep skill animation playing
 		
 		grapple_line.clear_points() # Clear any existing points
 		grapple_line.add_point(Vector2.ZERO) # Add point 0 (player's local origin)
@@ -176,6 +177,7 @@ func perform_grapple():
 		print("No visible grapple targets found")
 		is_grappling = false
 		player.is_grappling_active = false # Reset if grapple fails
+		player.still_animation = false # <--- ADD THIS LINE: Reset if grapple fails to start
 		grapple_line.clear_points() # Clear the line if grapple is not successful
 
 # Handles player movement during grappling (pulling or swinging)
@@ -363,5 +365,6 @@ func release_grapple():
 		player.is_grappling = false # Custom player flag (if used elsewhere)
 		player.is_grappling_active = false # <-- Reset the flag for player.gd's gravity
 		grapple_line.clear_points()
+		player.still_animation = false # <--- ADD THIS LINE: Reset still_animation on release
 
 		print("Grapple released. Final Player velocity:", player.velocity)
