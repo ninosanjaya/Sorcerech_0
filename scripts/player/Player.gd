@@ -26,6 +26,7 @@ var facing_direction := 1 # 1 for right, -1 for left
 var states = {}
 var current_state: BaseState = null
 var state_order = [ "UltimateMagus", "Magus","Normal", "Cyber", "UltimateCyber"]
+#0=ultmagus,1=magus,2=normal,3=cyber,4=ultcyber
 var current_state_index = 2
 var unlocked_states: Array[String] = ["Normal"]  # Start with only Normal state unlocked
 # Maintain a separate dictionary to track unlocked status
@@ -73,6 +74,8 @@ var knockback_timer := 0.0
 var is_grappling := false
 var grapple_joint := Vector2.ZERO
 var grapple_length := 0.0
+
+var is_grappling_active := false # Flag to tell player.gd when grapple is active
 
 const FLOOR_NORMAL: Vector2 = Vector2(0, -1) # Standard for side-scrolling 2D
 
@@ -129,10 +132,10 @@ func _ready():
 		SaveLoadManager.current_loaded_player_data = {} # Clear temporary data
 	else:
 		print("Player._ready: No loaded data. Setting initial default state.")
-		#unlock_state("Magus")
-		#unlock_state("Cyber")
-		#unlock_state("UltimateMagus")
-		#unlock_state("UltimateCyber")
+		unlock_state("Magus")
+		unlock_state("Cyber")
+		unlock_state("UltimateMagus")
+		unlock_state("UltimateCyber")
 		
 		current_state_index = unlocked_states.find("Normal")
 		if current_state_index == -1:
@@ -183,31 +186,39 @@ func _physics_process(delta):
 			else:
 				sprite.flip_h = false
 				
-			if not wall_jump_just_happened and Global.is_dialog_open == false:
+			if not wall_jump_just_happened and Global.is_dialog_open == false and Global.attacking == false:
 				velocity.x = input_dir * move_speed
-			if is_on_floor() and Input.is_action_just_pressed("move_up") and Global.is_dialog_open == false:
+			if is_on_floor() and Input.is_action_just_pressed("move_up") and Global.is_dialog_open == false and Global.attacking == false:
 				velocity.y = -jump_force
 	
-		if Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2 and current_state_index != 0 and current_state_index != 4 and Global.is_dialog_open == false:
+		if Input.is_action_just_pressed("yes") and can_attack and get_current_form_id() != "Normal" and get_current_form_id() != "UltimateMagus" and get_current_form_id() != "UltimateCyber" and Global.is_dialog_open == false:
 			can_attack = false
 			attack_cooldown_timer.start(2.0)
-		elif Input.is_action_just_pressed("yes") and can_attack and current_state_index != 2 and current_state_index != 0 and current_state_index == 4 and Global.is_dialog_open == false:
+			#print("start cooldonw 2")
+		elif Input.is_action_just_pressed("yes") and can_attack and get_current_form_id() != "Normal" and get_current_form_id() != "UltimateMagus" and get_current_form_id() == "UltimateCyber" and Global.is_dialog_open == false:
 			can_attack = false
 			attack_cooldown_timer.start(5.0)
-			
-		elif get_current_form_id() == "UltimateMagus" and can_attack and Input.is_action_just_pressed("yes") and current_state_index != 2 and combo_timer_flag == true and Global.is_dialog_open == false:
+			#print("start cooldonw 5")
+		elif get_current_form_id() == "UltimateMagus" and can_attack and Input.is_action_just_pressed("yes") and get_current_form_id() != "Normal" and get_current_form_id() != "UltimateCyber"  and combo_timer_flag == true and Global.is_dialog_open == false:
 			combo_timer_flag = false
 			combo_timer.start(0.5)
-
-		if Input.is_action_just_pressed("no") and can_skill and current_state_index != 2 and current_state_index != 1 and current_state_index != 4 and Global.is_dialog_open == false:
+			#print("start cooldonw 0.5")
+		
+		#print(get_current_form_id())
+		if Input.is_action_just_pressed("no") and can_skill and get_current_form_id() != "Normal" and get_current_form_id() != "Cyber" and get_current_form_id() != "Magus" and get_current_form_id() != "UltimateCyberState" and Global.is_dialog_open == false:
 			can_skill = false
 			skill_cooldown_timer.start(2.0)
 		
-		elif Input.is_action_just_pressed("no") and can_skill and current_state_index != 2 and current_state_index == 1 and Global.is_dialog_open == false:
+		elif Input.is_action_just_pressed("no") and can_skill and  get_current_form_id() != "Normal"  and get_current_form_id() == "Cyber" and get_current_form_id() != "Magus" and get_current_form_id() != "UltimateCyberState" and Global.is_dialog_open == false:
+			can_skill = false
+			skill_cooldown_timer.start(0.1)
+			
+			
+		elif Input.is_action_just_pressed("no") and can_skill and  get_current_form_id() != "Normal"  and get_current_form_id() != "Cyber" and get_current_form_id() == "Magus" and get_current_form_id() != "UltimateCyberState" and Global.is_dialog_open == false:
 			can_skill = false
 			skill_cooldown_timer.start(10.0)
 			
-		elif Input.is_action_just_pressed("no") and can_skill and current_state_index != 2 and current_state_index == 4 and Global.is_dialog_open == false:
+		elif Input.is_action_just_pressed("no") and can_skill and  get_current_form_id() != "Normal"  and get_current_form_id() != "Cyber" and get_current_form_id() == "UltimateCyberState" and get_current_form_id() != "Magus" and Global.is_dialog_open == false:
 			can_skill = false
 			skill_cooldown_timer.start(15.0)
 		
@@ -383,6 +394,7 @@ func _on_attack_cooldown_timer_timeout():
 
 func _on_skill_cooldown_timer_timeout():
 	can_skill = true
+	print("can skill again")
 
 func _on_animation_tree_animation_finished(anim_name):
 	still_animation = false

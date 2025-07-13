@@ -66,3 +66,10 @@ target_spawn = "Spawn_FromExactlyionTown"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_Valentina"]
 position = Vector2(316, 55)
 shape = SubResource("RectangleShape2D_05uf5")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -553.0
+offset_top = -452.0
+offset_right = -428.0
+offset_bottom = -429.0
+text = "Exactlyion Town"

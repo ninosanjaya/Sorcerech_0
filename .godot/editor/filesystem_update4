@@ -3,9 +3,13 @@ res://shaders/highlight.gdshader
 res://dialogic/Style1.tres
 res://scenes/tileset/Placeholder_new_tile_set.tres
 res://shaders/camouflage_alpha.gdshader
-res://scripts/world/cutscene_manager.gd
+res://scripts/player/Player.gd
 res://scenes/world/world.tscn
 res://scenes/player/player.tscn
 res://scenes/world/SaveSpot.tscn
-res://scenes/rooms/Room_AerendaleJunkyard.tscn
 res://scenes/world/cutscene_manager.tscn
+res://scenes/rooms/Room_AerendaleJunkyard.tscn
+res://scripts/player/combat/AttackState2.gd
+res://scripts/player/combat/AttackState.gd
+res://config/Global.gd
+res://scripts/player/player_states/MagusState.gd

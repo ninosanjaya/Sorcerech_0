@@ -27,3 +27,10 @@ target_spawn = "Spawn_FromABattlefield"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_AerendaleTown"]
 position = Vector2(130, 47)
 shape = SubResource("RectangleShape2D_s6660")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -584.0
+offset_top = -403.0
+offset_right = -420.0
+offset_bottom = -380.0
+text = "Aerandale Battlefield"

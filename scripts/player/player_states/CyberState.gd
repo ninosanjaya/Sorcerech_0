@@ -9,6 +9,7 @@ var is_grappling = false # Flag to indicate if grappling is active
 
 var is_swinging = false # Flag to indicate if player is in swing mode (pendulum physics)
 var original_rope_length = 0.0 # Stores the initial distance to the grapple point when swing starts
+var initial_grapple_rope_length = 0.0 # Store the initial length when grapple starts
 
 # Preload the Combat FSM for player combat logic
 const CombatFSM = preload("res://scripts/player/combat/CombatFSM.gd")
@@ -18,36 +19,38 @@ var attack_timer := 0.0 # Timer for managing attack duration (if any)
 # === Grapple Mechanics Constants ===
 
 const PULL_SPEED = 200.0        # Base speed at which player is pulled toward grapple point (when not swinging)
-const MAX_PULL_SPEED = 500.0    # Maximum speed player can reach when pulled (not currently capped in logic, but useful if added)
 const PULL_ACCELERATION = 2000.0 # How quickly the player accelerates toward the grapple point
 
-const MAX_GRAPPLE_DISTANCE = 150.0 # Max distance to detect and attach to a grapple target
-const MIN_DISTANCE = 30.0       # If player is closer than this, auto-releases the grapple (not explicitly used for auto-release here)
+const MAX_GRAPPLE_DISTANCE = 100.0 # Max distance to detect and attach to a grapple target
 const SWING_MODE_DISTANCE = 80.0 # When distance is less than this, switch from pull to swing mode
-const ANGLE_BOOST_FACTOR = 1.5   # Boost multiplier for momentum when pulled at an angle (not currently used)
-
-const GRAVITY_SCALE = 0.3       # Reduces gravity effect during grappling (lower = floatier, if applied to player.velocity.y manually)
 
 # === Swing Mechanics (Pendulum Physics) ===
 
-var pendulum_angle = 45.0       # Initial angle for visual or potential future use (not actively used in swing calculations here)
 var angular_velocity = 0.0      # Speed of swing (angular), increases with input torque
 var swing_velocity = Vector2.ZERO # Actual velocity used during swing motion, preserved on release
 
-# **IMPORTANT CHANGE**: PENDULUM_GRAVITY now matches the global GRAVITY constant
 const SWING_FORCE = 800.0       # Force applied when moving left/right during grapple (useful for control while pulling)
 const PENDULUM_GRAVITY = 1200.0 # Simulated gravity force used in swing calculations. Matches global GRAVITY.
-const PENDULUM_DAMPING = 0.93   # Damping applied to angular velocity to simulate swing slowing over time
-
 var swing_angle = 0.0           # Radians, angle from the grapple point (relative to Y-axis)
-const SWING_TORQUE = 8.0        # How much input affects angular velocity
-const ANGULAR_DAMPING = 0.95    # Damping to prevent perpetual motion in the swing
+const SWING_TORQUE = 10.0       # How much input affects angular velocity
+const ANGULAR_DAMPING = 0.99    # Damping to prevent perpetual motion in the swing
+
+# NEW CONSTANTS FOR SMOOTHER SWING
+const MAX_ANGULAR_VELOCITY = 15.0 # Max speed the swing can achieve (radians/sec)
+const ANGLE_EFFECTIVENESS_FACTOR = 1.5 # How much to boost input torque near the bottom of the swing
+const ANGLE_EFFECTIVENESS_WINDOW = deg_to_rad(60) # Angle (total) around the bottom where input is most effective (e.g., +/- 30 degrees)
+
+
+# === NEW GRAPPLE BOOST CONSTANTS ===
+const HORIZONTAL_BOOST_FACTOR = 1.5  # Multiplier for horizontal velocity on release at peak
+const VERTICAL_BOOST_ADDITION = -150.0 # Fixed upward impulse (-ve for upward)
+const GRAPPLE_BOOST_ANGLE_WINDOW = deg_to_rad(45) # Angle window (e.g., +/- 45 degrees around PI/2 or -PI/2)
 
 const GRAVITY = 1200.0          # Global gravity constant, used for consistency
 
 # === Combat Constants ===
 
-const ATTACK_DURATION := 0.2    # Duration the cyber attack state lasts
+const ATTACK_DURATION := 0.2
 
 var wall_jump_force = 200
  
@@ -55,36 +58,29 @@ var wall_jump_force = 200
 func _init(_player):
 	player = _player
 	combat_fsm = CombatFSM.new(player)
-	# Note: Adding combat_fsm as a child of this state (CyberState) might not be
-	# the most conventional pattern. Typically, FSMs are children of the entity
-	# they control (e.g., player). If this causes issues, consider restructuring.
-	# For now, keeping it as per your original code.
 	add_child(combat_fsm)
 
 # Called when entering this state
 func enter():
-	grapple_line = player.get_node("GrappleLine") # Get the Line2D node for the grapple rope
-	Global.playerDamageAmount = 30 # Set player's damage amount (assuming Global is an Autoload)
+	grapple_line = player.get_node("GrappleLine")
+	Global.playerDamageAmount = 30
 	print("Entered Cyber State")
 	
-	 # ... your existing enter() logic for CyberState ...
+	# Set player's grappling flag to false on state entry
+	player.is_grappling_active = false 
+	
 	print("DEBUG_CYBERSTATE_ENTER: Entered Cyber State.")
 	var sprite = player.get_node_or_null("Sprite2D")
 	if sprite and sprite.material and (sprite.material is ShaderMaterial):
-		# Log the shader uniform when entering CyberState.
 		print("DEBUG_CYBERSTATE_ENTER: Shader Alpha Override: ", sprite.material.get_shader_parameter("camouflage_alpha_override"))
 	elif sprite:
 		print("DEBUG_CYBERSTATE_ENTER: Sprite2D does not have a ShaderMaterial or material is null.")
 	else:
 		print("DEBUG_CYBERSTATE_ENTER: Sprite2D node not found.")
 
-
-
 # Called when exiting this state
 func exit():
-	# ... your existing exit() logic for CyberState ...
 	print("DEBUG_CYBERSTATE_EXIT: Exited Cyber State.")
-
 	release_grapple() # Ensure the grapple is released when leaving the CyberState
 	
 	player.skill_cooldown_timer.start(0.1)
@@ -92,9 +88,9 @@ func exit():
 
 # Main physics update loop for the state
 func physics_process(delta):
-	#print(player.velocity.x)
-	#print(player.is_on_wall())
-	if player.is_on_wall() and Input.is_action_just_pressed("move_up"):
+	# Removed wall jump logic if it's supposed to happen OUTSIDE grapple
+	# If wall jump should release grapple:
+	if player.is_on_wall() and Input.is_action_just_pressed("move_up") and not is_grappling:
 		print("wall jump")
 		player.wall_jump_just_happened = true
 		player.wall_jump_timer = player.WALL_JUMP_DURATION
@@ -102,38 +98,25 @@ func physics_process(delta):
 		if player.facing_direction == 1:
 			player.velocity.x += -wall_jump_force
 			player.facing_direction = -1
-			#player.sprite.flip_h = false
-			
 			print("move to right, knock to left")
 		elif player.facing_direction == -1:
 			player.velocity.x += wall_jump_force
 			player.facing_direction = 1
-			#player.sprite.flip_h = true
 			print("move to left, knock to right")
 		
 		player.velocity.y = -300
 		
-	
-	#else:
-	#	player.wall_jump_just_happened = false
-		
-	combat_fsm.physics_update(delta) # Update the combat finite state machine
+	combat_fsm.physics_update(delta)
 
-	# Handle player abilities (canon/telekinesis)
 	if player.canon_enabled == true or player.telekinesis_enabled == true:
 		player.velocity = Vector2.ZERO # Stop player movement if these abilities are active
 	else:
 		player.scale = Vector2(1,1) # Reset player scale
 
-		# Handle cyber attack input
 		if Input.is_action_just_pressed("yes") and player.can_attack == true and Global.playerAlive:
-			player.AreaAttack.monitoring = true      # Enable monitoring for attack area
-			#player.AreaAttackColl.disabled = false   # Enable collision for attack area
-			
-			
+			player.AreaAttack.monitoring = true
 			print("Cyber attacking")
 
-		# Handle grapple input
 		if Input.is_action_just_pressed("no") and player.can_skill == true and Global.playerAlive:
 			perform_grapple()
 
@@ -142,12 +125,9 @@ func physics_process(delta):
 		handle_grapple_movement(delta)
 
 	# Release grapple if "move_up" (jump) is pressed while grappling
-	# Added `and is_grappling` to prevent releasing when not grappling
 	if Input.is_action_just_pressed("move_up") and is_grappling:
 		release_grapple()
 
-	
-# Input handling (currently empty)
 func handle_input(event):
 	pass
 
@@ -157,16 +137,13 @@ func perform_grapple():
 	var closest_target: Node2D = null
 	var closest_distance := MAX_GRAPPLE_DISTANCE
 
-	# Iterate through all nodes in the "grapple_targets" group
 	for target in player.get_tree().get_nodes_in_group("grapple_targets"):
-		# Skip if target doesn't have global_position (e.g., not a Node2D or derivate)
 		if not target.has_method("get_global_position"):
 			continue
 
 		var to_target = target.global_position - player.global_position
 		var distance = to_target.length()
 
-		# Skip if target is beyond max grapple distance
 		if distance > MAX_GRAPPLE_DISTANCE:
 			continue
 
@@ -174,134 +151,217 @@ func perform_grapple():
 		query.exclude = [player]
 		var result = space_state.intersect_ray(query)
 
-		# Only allow grappling if nothing is in the way or the hit is the target itself
 		if result.is_empty() or result.collider == target:
 			if distance < closest_distance:
 				closest_target = target
 				closest_distance = distance
 		else:
-			# Optional: Debug what the ray hits
 			print("Blocked by: ", result.collider.name)
 
-	# If a valid grapple target was found
 	if closest_target:
-		grapple_point = closest_target.global_position # Set the grapple point
-		is_grappling = true # Activate grappling
-
-		# Initialize grapple line points if not already set
-		if grapple_line.get_point_count() == 0:
-			grapple_line.clear_points()
-			grapple_line.add_point(Vector2.ZERO) # Origin relative to player
-			grapple_line.add_point(player.to_local(grapple_point)) # Grapple point relative to player
+		grapple_point = closest_target.global_position
+		is_grappling = true
+		player.is_grappling_active = true # Inform player.gd that grappling is active
 		
+		grapple_line.clear_points() # Clear any existing points
+		grapple_line.add_point(Vector2.ZERO) # Add point 0 (player's local origin)
+		grapple_line.add_point(player.to_local(grapple_point)) # Add point 1 (grapple point in player's local space)
+		
+		# Store the initial rope length when the grapple begins
+		initial_grapple_rope_length = (grapple_point - player.global_position).length()
+		original_rope_length = initial_grapple_rope_length # Initialize original_rope_length
+
 		print("Grappling to ", grapple_point)
 	else:
 		print("No visible grapple targets found")
 		is_grappling = false
+		player.is_grappling_active = false # Reset if grapple fails
+		grapple_line.clear_points() # Clear the line if grapple is not successful
 
 # Handles player movement during grappling (pulling or swinging)
 func handle_grapple_movement(delta):
-	# Exit if not grappling or grapple line is not set up
-	if not is_grappling or grapple_line.get_point_count() < 2:
+	if not is_grappling:
 		return
 
-	# This print statement means that handle_grapple_movement is being called,
-	# which is expected every physics frame when grappling is active.
 	print("grapp to swing")
 
-	var to_grapple = grapple_point - player.global_position # Vector from player to grapple point
-	var distance = to_grapple.length() # Current distance to grapple point
-	var direction = to_grapple.normalized() # Normalized direction vector
+	var to_grapple = grapple_point - player.global_position
+	var distance = to_grapple.length()
+	var direction = to_grapple.normalized()
 
-	# If player is close enough to the grapple point, switch to swing mode
 	if distance < SWING_MODE_DISTANCE and not is_swinging:
-		# Only switch if player speed is relatively low to prevent jarring transitions
 		if player.velocity.length() < 300:
 			enter_swing_mode(distance)
 
 	if is_swinging:
-		handle_swing_movement(delta) # Handle swing physics
+		handle_swing_movement(delta) # This is now the pendulum + blocking logic
 	else:
 		# PULL MODE: Player is pulled towards the grapple point
-		# Apply acceleration towards the grapple point
 		var acceleration = direction * PULL_ACCELERATION * delta
 		player.velocity += acceleration
-		player.velocity = player.velocity.limit_length(PULL_SPEED) # Limit max pull speed
-		player.global_position += player.velocity * delta # Manually update player position
-		#player.velocity = direction * PULL_SPEED  # already calculated
+		player.velocity = player.velocity.limit_length(PULL_SPEED)
 		
+		# Allow move_and_slide in player.gd to handle actual movement and collision
+		# player.global_position += player.velocity * delta # REMOVED THIS LINE
+		# Player.gd's move_and_slide will use player.velocity
+
 		# Apply lateral forces for control during pull
 		if Input.is_action_pressed("move_left"):
-			player.global_position.x -= SWING_FORCE * delta
+			player.velocity.x -= SWING_FORCE * delta
 		elif Input.is_action_pressed("move_right"):
-			player.global_position.x += SWING_FORCE * delta
+			player.velocity.x += SWING_FORCE * delta
 
 	# Update the visual representation of the grapple rope
-	grapple_line.set_point_position(0, Vector2.ZERO) # Rope start at player's origin (local space)
-	grapple_line.set_point_position(1, player.to_local(grapple_point)) # Rope end at grapple point (local space)
+	grapple_line.set_point_position(0, Vector2.ZERO)
+	grapple_line.set_point_position(1, player.to_local(grapple_point))
 
 # Enters the swinging (pendulum) mode
 func enter_swing_mode(distance):
-	is_swinging = true # Activate swing flag
-	original_rope_length = distance # Store the initial rope length
+	is_swinging = true
+	# original_rope_length is already set in perform_grapple, 
+	# or can be explicitly set here to distance for consistency.
+	original_rope_length = distance 
 
-	var to_player = player.global_position - grapple_point # Vector from grapple point to player
-	# Calculate initial swing angle. atan2(x, y) gives angle relative to Y-axis.
+	var to_player = player.global_position - grapple_point
 	swing_angle = atan2(to_player.x, to_player.y)
-	angular_velocity = 0.0 # Reset angular velocity on entering swing mode
+	angular_velocity = 0.0
+	
+	var initial_tangent = Vector2(-to_player.y, to_player.x).normalized()
+	angular_velocity = player.velocity.dot(initial_tangent) / original_rope_length
 
 # Handles player movement during swinging (pendulum physics)
 func handle_swing_movement(delta):
-	if grapple_point == null: # Should not happen if grappling is true, but good safeguard
+	if grapple_point == null:
 		return
 
 	# --- Calculate force and angular momentum ---
-	# Calculate gravity torque affecting the pendulum.
-	# The `PENDULUM_GRAVITY` constant (now matching `GRAVITY`) is crucial here.
 	var gravity_torque = -sin(swing_angle) * PENDULUM_GRAVITY / original_rope_length
-	angular_velocity += gravity_torque * delta # Apply gravity's effect to angular velocity
+	angular_velocity += gravity_torque * delta
 
 	# --- Input torque from player movement ---
-	# Apply player input to angular velocity for left/right swing control
+	var input_dir = 0.0
 	if Input.is_action_pressed("move_left"):
-		angular_velocity -= SWING_TORQUE * delta
+		input_dir = -1.0
 	elif Input.is_action_pressed("move_right"):
-		angular_velocity += SWING_TORQUE * delta
+		input_dir = 1.0
+
+	var effective_torque = 0.0
+
+	# Apply torque only if the input direction aligns with gaining speed or changing direction
+	# Calculate tangential velocity direction to compare with input
+	var current_tangential_direction = sign(angular_velocity) # -1 for left, 1 for right, 0 for still
+
+	if input_dir != 0:
+		# Angle factor: input is most effective near the bottom of the swing (swing_angle ~ 0 or PI)
+		# A `cos` function works well here, peaking at 0 and PI, and 0 at PI/2 and -PI/2.
+		# But careful with angle definition. Assuming swing_angle is 0 at the bottom.
+		var angle_from_bottom = abs(fmod(swing_angle, PI)) # Distance from 0 or PI
+		var angle_factor = 1.0 - (angle_from_bottom / (PI / 2.0)) # 1 at bottom, 0 at horizontal
+		angle_factor = pow(clamp(angle_factor, 0.0, 1.0), 2.0) # Smooth curve, more effective near bottom
+		
+		# If the player is trying to accelerate in the same direction as the current swing,
+		# or if they're trying to reverse direction.
+		if sign(input_dir) == current_tangential_direction or current_tangential_direction == 0:
+			effective_torque = SWING_TORQUE * angle_factor * input_dir
+			
+		elif sign(input_dir) != current_tangential_direction:
+			# Apply more torque if trying to reverse direction, but less effective if already fast
+			effective_torque = SWING_TORQUE * angle_factor * input_dir * (1.0 - abs(angular_velocity) / MAX_ANGULAR_VELOCITY)
+			effective_torque = clamp(effective_torque, -SWING_TORQUE, SWING_TORQUE) # Clamp to base torque
+
+	angular_velocity += effective_torque * delta
+
+	# --- Clamp angular velocity to a maximum ---
+	angular_velocity = clamp(angular_velocity, -MAX_ANGULAR_VELOCITY, MAX_ANGULAR_VELOCITY)
 
 	# --- Apply damping to avoid infinite swing ---
-	angular_velocity *= ANGULAR_DAMPING # Reduce angular velocity over time
+	angular_velocity *= ANGULAR_DAMPING
 
 	# --- Update swing angle ---
-	swing_angle += angular_velocity * delta # Update the angle based on current angular velocity
+	swing_angle += angular_velocity * delta
 
-	# --- Clamp angle within -PI to PI to prevent numerical issues or "flipping" ---
+	# --- Clamp angle within -PI to PI ---
 	swing_angle = fmod(swing_angle + PI, TAU) - PI
 
-	# --- Calculate player position around the circle (pendulum arc) ---
-	# Calculate the offset from the grapple point based on the current swing angle and rope length
+	# --- Calculate desired position on the circle (pendulum arc) ---
 	var offset = Vector2(
 		sin(swing_angle), # X component from angle relative to Y-axis
 		cos(swing_angle)  # Y component from angle relative to Y-axis
 	) * original_rope_length
 
-	player.global_position = grapple_point + offset # Directly set player's global position
+	var desired_position = grapple_point + offset # The theoretical position on the pendulum arc
+
+	# --- Calculate the movement vector needed to reach the desired position ---
+	var motion_to_desired = desired_position - player.global_position
+
+	# --- Use move_and_collide to attempt to move to desired_position ---
+	# This will stop the player at the collision point if a wall is hit.
+	var collision = player.move_and_collide(motion_to_desired)
+
+	if collision:
+		print("Grapple Swing Collision Detected with: ", collision.get_collider().name)
+		# When a collision occurs:
+		# 1. Stop the angular swing.
+		angular_velocity = 0.0
+		# 2. Set player velocity to zero to prevent sliding/jitter from remaining forces.
+		player.velocity = Vector2.ZERO
+		# 3. The player's global_position is already at the collision point due to move_and_collide.
+		# 4. Crucially, DO NOT change original_rope_length. The rope remains its original length
+		#    but the player is simply blocked from moving further. This creates tension.
+		
+	else:
+		# If no collision, player moved directly to desired_position by move_and_collide.
+		# Now, re-enforce the original rope length precisely.
+		var current_to_grapple = grapple_point - player.global_position
+		var current_distance = current_to_grapple.length()
+
+		# Snap player back to original_rope_length to counteract floating point errors
+		if current_distance > 0.01 and abs(current_distance - original_rope_length) > 0.1:
+			player.global_position = grapple_point + current_to_grapple.normalized() * original_rope_length
+		elif current_distance <= 0.01:
+			player.global_position = grapple_point # Avoid division by zero if too close
+
 
 	# --- Store tangent velocity for post-release momentum ---
-	# Calculate the current tangential velocity of the player along the arc.
-	# This velocity will be preserved when the grapple is released.
-	var tangent_direction = Vector2(cos(swing_angle), -sin(swing_angle)) # Tangent vector (clockwise for Y-axis angle)
-	swing_velocity = tangent_direction * angular_velocity * original_rope_length # Velocity = speed * direction
+	# This should reflect the actual velocity of the player *before* being stopped by a wall.
+	# If angular_velocity is 0 due to collision, swing_velocity will also be 0, which is correct.
+	var tangent_direction = Vector2(cos(swing_angle), -sin(swing_angle))
+	swing_velocity = tangent_direction * angular_velocity * original_rope_length
 
-	# Additionally, set player.velocity for consistency if other states use it immediately.
+	# Set player.velocity for consistency; move_and_slide() will use this on release
 	player.velocity = swing_velocity
+
 
 # Releases the grapple
 func release_grapple():
-	if is_grappling: # Only release if currently grappling
+	if is_grappling:
+		player.velocity = swing_velocity # Preserve the swing velocity
+
+		# Apply boost only if player was swinging and is near horizontal extremes
+		# Now, the boost only happens if angular_velocity was NOT zeroed by a wall collision.
+		# If angular_velocity is 0, swing_velocity will be 0, so no boost is implicitly applied.
+		if is_swinging: # The is_swinging check is enough, as swing_velocity will be zero if blocked.
+			var boost_applied = false
+			
+			if abs(swing_angle - PI/2) < GRAPPLE_BOOST_ANGLE_WINDOW:
+				player.velocity.x *= HORIZONTAL_BOOST_FACTOR
+				player.velocity.y += VERTICAL_BOOST_ADDITION
+				boost_applied = true
+				print("DEBUG: Grapple released near right peak, applying boost.")
+			
+			elif abs(swing_angle - (-PI/2)) < GRAPPLE_BOOST_ANGLE_WINDOW:
+				player.velocity.x *= HORIZONTAL_BOOST_FACTOR
+				player.velocity.y += VERTICAL_BOOST_ADDITION
+				boost_applied = true
+				print("DEBUG: Grapple released near left peak, applying boost.")
+			
+			if not boost_applied:
+				print("DEBUG: Grapple released, no peak boost applied.")
+
 		is_grappling = false
 		is_swinging = false
-		player.is_grappling = false # Update the player node's own grappling state (if exists)
-		grapple_line.clear_points() # Clear the visible grapple rope
+		player.is_grappling = false # Custom player flag (if used elsewhere)
+		player.is_grappling_active = false # <-- Reset the flag for player.gd's gravity
+		grapple_line.clear_points()
 
-		# Preserve the calculated swing velocity so the player continues with momentum
-		player.velocity = swing_velocity
+		print("Grapple released. Final Player velocity:", player.velocity)

@@ -30,3 +30,10 @@ target_spawn = "Spawn_FromExactlyionMainframe"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_ExactlyionCentral"]
 position = Vector2(-246, 56)
 shape = SubResource("RectangleShape2D_6jiau")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -550.0
+offset_top = -449.0
+offset_right = -381.0
+offset_bottom = -426.0
+text = "Exactlyion Mainframe"

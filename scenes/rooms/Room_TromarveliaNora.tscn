@@ -28,3 +28,10 @@ target_spawn = "Spawn_FromTromarveliaNora"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_TromarveliaTown"]
 position = Vector2(-131, 54)
 shape = SubResource("RectangleShape2D_8lpbd")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -566.0
+offset_top = -456.0
+offset_right = -476.0
+offset_bottom = -433.0
+text = "Nora house"

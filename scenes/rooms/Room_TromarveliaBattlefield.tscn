@@ -28,3 +28,10 @@ target_spawn = "Spawn_FromTBattlefield"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_TromarveliaTown"]
 position = Vector2(-194, 53)
 shape = SubResource("RectangleShape2D_ovshc")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -545.0
+offset_top = -408.0
+offset_right = -367.0
+offset_bottom = -385.0
+text = "Tromarvelia Battlefield"

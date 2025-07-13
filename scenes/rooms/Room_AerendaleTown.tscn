@@ -407,3 +407,10 @@ target_spawn = "Spawn_FromHub"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_AerendaleCapital"]
 position = Vector2(131, 51)
 shape = SubResource("RectangleShape2D_c2wbv")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -595.0
+offset_top = -471.0
+offset_right = -469.0
+offset_bottom = -448.0
+text = "Aerandale Town"

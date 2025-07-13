@@ -5,6 +5,8 @@ var gameStarted: bool
 
 var is_dialog_open := false
 
+var attacking := false
+
 func _ready():
 	Dialogic.connect("dialog_started", Callable(self, "_on_dialog_started"))
 	Dialogic.connect("dialog_ended", Callable(self, "_on_dialog_ended"))

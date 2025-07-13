@@ -28,3 +28,10 @@ target_spawn = "Spawn_FromTromarveliaCastle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_TromarveliaTown"]
 position = Vector2(182, 50)
 shape = SubResource("RectangleShape2D_l4sc2")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -590.0
+offset_top = -403.0
+offset_right = -445.0
+offset_bottom = -380.0
+text = "Tromarvelia Castle"

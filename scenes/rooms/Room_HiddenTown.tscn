@@ -42,3 +42,10 @@ target_spawn = "Spawn_FromHiddenTown"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_Hub"]
 position = Vector2(-200, 59)
 shape = SubResource("RectangleShape2D_7lyel")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -597.0
+offset_top = -465.0
+offset_right = -507.0
+offset_bottom = -442.0
+text = "Ruins Town"

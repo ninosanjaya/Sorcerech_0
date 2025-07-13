@@ -28,3 +28,10 @@ target_spawn = "Spawn_FromEBattlefield"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door_ExactlyionTown"]
 position = Vector2(198, 54)
 shape = SubResource("RectangleShape2D_pfl21")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -492.0
+offset_top = -467.0
+offset_right = -329.0
+offset_bottom = -444.0
+text = "Exactlyion Battlefield"
