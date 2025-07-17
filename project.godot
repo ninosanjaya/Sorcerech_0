@@ -30,7 +30,8 @@ directories/dch_directory={
 "character2": "res://dialogic/characters/character2.dch"
 }
 directories/dtl_directory={
-"timeline1": "res://dialogic/timeline/timeline1.dtl"
+"timeline1": "res://dialogic/timeline/timeline1.dtl",
+"timeline2": "res://timeline2.dtl"
 }
 extensions_folder="res://addons/dialogic_additions"
 text/letter_speed=0.01

@@ -416,7 +416,6 @@ position = Vector2(2504, 1320)
 
 [node name="CutsceneManager" parent="." instance=ExtResource("21_sl30v")]
 position = Vector2(25, 1350)
-junkyard_spawn_path = NodePath("../Room_AerendaleJunkyard/Marker2D")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(189, 1435)
